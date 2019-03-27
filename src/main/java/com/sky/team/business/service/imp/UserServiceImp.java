@@ -67,7 +67,7 @@ public class UserServiceImp implements UserService {
         User user = userDao.selectRegister(userid, userpassword, useremail);
         if(user!=null&&user.getUserEmailCode().equals(emailCode)){
             Date userLastTime = user.getUserLastTime();
-            if((new Date().getTime()-userLastTime.getTime())>=70l){
+            if((new Date().getTime()-userLastTime.getTime())>=120l){
                 return false;
             }
 
