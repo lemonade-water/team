@@ -12,9 +12,9 @@ public interface UserDao {
 
     void registerUser(String userid,String username, String userpassword, String useremail, String code, Date date);
 
-    User selectRegister(String userid,String userpassword,String useremail);
+    User selectRegister(String userid,String useremail);
 
     void deleteRegisterUser(Date date);
 
-    void adadUser(String userid,String username, String userpassword, String useremail, String userdepartment, String emailCode);
+    void addUser(String userId,String userName,String userPassword,String userEmail,String userEmailCode,String userDepartment);
 }

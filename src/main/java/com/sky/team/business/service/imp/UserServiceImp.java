@@ -7,6 +7,7 @@ import com.sky.team.business.pojo.User;
 import com.sky.team.business.service.UserService;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -61,18 +62,21 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public boolean register(String userid,String username, String userpassword, String useremail,String userdepartment,String emailCode) {
+    public boolean register(User user) {
 
         /*验证邮箱*/
-        User user = userDao.selectRegister(userid, userpassword, useremail);
-        if(user!=null&&user.getUserEmailCode().equals(emailCode)){
-            Date userLastTime = user.getUserLastTime();
-            if((new Date().getTime()-userLastTime.getTime())>=150l){
+        User register_user = userDao.selectRegister(user.getUserId(), user.getUserEmail());
+        if(register_user!=null&&register_user.getUserEmailCode().equals(user.getUserEmailCode())){
+            Date userLastTime = register_user.getUserLastTime();
+            if((new Date().getTime()-userLastTime.getTime())>=150000l){
                 return false;
             }
-
+            String hashAlgorithmName = "MD5";
+            String credentials = user.getUserPassword();
+            int hashIterations = 1024;
+            Object obj = new SimpleHash(hashAlgorithmName, credentials, null, hashIterations);
             /*插入数据*/
-            userDao.adadUser(userid,username,userpassword,useremail,userdepartment,emailCode);
+            userDao.addUser(user.getUserId(),user.getUserName(),obj.toString(),user.getUserEmail(),user.getUserEmailCode(),user.getUserDepartment());
             return true;
         }
         return false;
@@ -86,12 +90,13 @@ public class UserServiceImp implements UserService {
         String code =UUID.randomUUID().toString().replaceAll("-","").substring(0,6);
 
         /*王数据库里面插入数据*/
-        userDao.registerUser(userid,username,userpassword,useremail,code,new Date());
+
 
         /*发邮箱*/
-        Executor executor =Executors.newFixedThreadPool(200);
+        Executor executor =Executors.newCachedThreadPool();
         executor.execute(()->{
             sendEmail(useremail,code);
+            userDao.registerUser(userid,username,userpassword,useremail,code,new Date());
         });
 
     }

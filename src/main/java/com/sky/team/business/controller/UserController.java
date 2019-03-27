@@ -106,31 +106,32 @@ public class UserController {
 
 
 
-    @RequestMapping(value = "/register",method = RequestMethod.GET)
+    @RequestMapping(value = "/register",method = RequestMethod.POST)
     @ResponseBody
     public Object register(@RequestBody User user,
                            HttpServletRequest request){
         /*验证账号密码是否符合规则*/
 
-        if(isValidate(user.getUserName(),user.getUserPassword(),user.getUserEmail())){
-            return userService.register(user.getUserId(),user.getUserName(),user.getUserPassword(),user.getUserEmail(),user.getUserDepartment(),user.getUserEmailCode());
+        if(isValidate(user.getUserId(),user.getUserPassword(),user.getUserEmail())){
+            return userService.register(user);
         }else {
             return null;
         }
 
     }
 
-    @RequestMapping(value = "/isUserid",method = RequestMethod.GET)
+    @RequestMapping(value = "/isUserId",method = RequestMethod.GET)
     @ResponseBody
-    public Integer isUsername(@RequestParam(name = "userid")String username){
+    public Integer isUsername(@RequestParam(name = "userId")String username){
 
         /*验证username*/
         if(username==null||username.length() != username.getBytes().length){
             return 3;
         }
+
         /*查询数据库是否有该用户*/
 
-        if(!userService.isUsername(username)){
+        if(userService.isUsername(username)){
             return 1;
         }else {
             return 2;

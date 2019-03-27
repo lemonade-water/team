@@ -11,7 +11,7 @@
     </select>
 
     <insert id="registerUser">
-        insert into user_register(userid,username,userpassword,useremail,useremailcode,userlasttime,roleid) values (#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},'2')
+        insert into user_register(userid,username,userpassword,useremail,useremailcode,userlasttime) values (#{param1},#{param2},#{param3},#{param4},#{param5},#{param6})
     </insert>
 
     <!--查询-->
@@ -24,13 +24,13 @@
         <result property="userEmailCode" column="useremailcode"></result>
     </resultMap>
     <select id="selectRegister" resultMap="registeruser">
-        select * from user_register where userid=#{param1} and userpassword=#{param2} and useremail=#{param3} order by userlasttime limit 0,1;
+        select * from user_register where userid=#{param1} and useremail=#{param2} order by userlasttime limit 0,1;
     </select>
 
     <delete id="deleteRegisterUser">
         delete from user_register where userLastTime <![CDATA[ <= ]]> #{param1};
     </delete>
-    <insert id="adadUser">
-        insert  into  user(userid,username, userpassword, useremail,userdepartment,emailCode) values (#{param1},#{param2},#{param3},#{param4},#{param5},#{param6});
+    <insert id="addUser">
+        insert  into  user(userid,username, userpassword, useremail,userdepartment,useremailCode,roleid) values (#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},'2');
     </insert>
 </mapper>
