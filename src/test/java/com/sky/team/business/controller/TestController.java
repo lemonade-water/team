@@ -44,6 +44,7 @@ public class TestController {
     @Test
     public void login() throws Exception {
         User user = new User();
+        /*设置参数*/
         user.setUserId("111");
         user.setUserPassword("111111");
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post("/login")
@@ -53,6 +54,5 @@ public class TestController {
         ).andDo(print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
-
     }
 }
