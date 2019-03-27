@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>video</title>
+</head>
+<body>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="panel-heading" align="center"><h1 class="sub-header h3">文件上传</h1></div>
+        <hr>
+        <form class="form-horizontal" id="upload" method="post" action="uploadflv/upload.do" enctype="multipart/form-data">
+            <div class="form-group" align="center">
+                <div class="col-md-4 col-sm-4  col-xs-4 col-lg-4">文件上传
+                    <input type="file" class="form-control" name="file" id="file"><br>
+                    <input type="submit" value="上传">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <video src="\深度学习应用实践60讲\第1讲深度学习在各个领域的成功\test.mp4" controls="controls">您的浏览器不支持 video 标签。</video>
+</div>
+</body>
+</html>
