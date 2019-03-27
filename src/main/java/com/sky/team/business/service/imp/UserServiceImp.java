@@ -19,6 +19,7 @@ import java.util.UUID;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+
 @Service
 public class UserServiceImp implements UserService {
 
@@ -87,7 +88,7 @@ public class UserServiceImp implements UserService {
     public void getEmail(String userid,String username, String userpassword, String useremail) {
         /*生成一个code*/
 
-        String code =UUID.randomUUID().toString().replaceAll("-","").substring(0,6);
+        String code =UUID.randomUUID().toString().replaceAll("-","").substring(0,5);
 
         /*王数据库里面插入数据*/
 
