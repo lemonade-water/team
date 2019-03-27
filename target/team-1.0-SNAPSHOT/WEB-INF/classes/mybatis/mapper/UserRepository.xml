@@ -20,8 +20,8 @@
         <result property="userId" column="userid"></result>
         <result property="userName" column="username"></result>
         <result property="userPassword" column="userpassword"></result>
-        <result property="useremail" column="useremail"></result>
-        <result property="useremailcode" column="useremailcode"></result>
+        <result property="userEmail" column="useremail"></result>
+        <result property="userEmailCode" column="useremailcode"></result>
     </resultMap>
     <select id="selectRegister" resultMap="registeruser">
         select * from user_register where userid=#{param1} and userpassword=#{param2} and useremail=#{param3} order by userlasttime limit 0,1;
