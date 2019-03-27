@@ -11,7 +11,7 @@
     </select>
 
     <insert id="registerUser">
-        insert into user_register(userid,username,userpassword,useremail,useremailcode,userlasttime) values (#{param1},#{param2},#{param3},#{param4},#{param5},#{param6})
+        insert into user_register(userid,username,userpassword,useremail,useremailcode,userlasttime,roleid) values (#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},'2')
     </insert>
 
     <!--查询-->
