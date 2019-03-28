@@ -12,6 +12,14 @@ import java.util.List;
 public interface CourseDao {
     List<Course> getCourseList();
 
-    /*查询所有的课程*/
+    /*查询所有的课程分类*/
     List<CourseType> getCourseType();
+    /*查询所有的课程*/
+    List<Course> getCourse();
+    /*添加课程*/
+    public int addCourse(Course course);
+    /*根据课程号删除*/
+    public int delCourse(String cId);
+    /*修改课程*/
+    public int UpdCourse(Course course);
 }

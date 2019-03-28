@@ -1,6 +1,7 @@
 package com.sky.team.business.service.imp;
 
 import com.sky.team.business.dao.CourseDao;
+import com.sky.team.business.pojo.Course;
 import com.sky.team.business.pojo.CourseType;
 import com.sky.team.business.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +38,27 @@ public class CourseServiceImp implements CourseService {
             }
         }
         return hashMap;
+    }
+
+    @Override
+    public List<Course> getCourse() {
+        return courseDao.getCourse();
+    }
+
+
+    @Override
+    public Course addCourse(Course course) {
+        courseDao.addCourse(course);
+        return course;
+    }
+
+    @Override
+    public int delCourse(String cId) {
+        return courseDao.delCourse(cId);
+    }
+
+    @Override
+    public int UpdCourse(Course course) {
+        return courseDao.UpdCourse(course);
     }
 }
