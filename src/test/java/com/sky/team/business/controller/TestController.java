@@ -55,4 +55,18 @@ public class TestController {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
     }
+
+    @Test
+    public void autologin() throws Exception {
+
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post("/api/autoLogin")
+                        .header("Authorization","'Bearer eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTcyNzkzMzcsInVzZXJuYW1lIjoiMTExIn0.SbvWPvaYEiWJYIRdHXvdNd09NHHzr7KpMQA5HgruPQXdnSWF2lu0tnliYOVZ-B_dj1rgeGSmMTN3_FGtCbRfpw'")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+
+                //使用writeValueAsString()方法来获取对象的JSON字符串表示
+        ).andDo(print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+    }
 }
