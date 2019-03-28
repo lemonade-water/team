@@ -32,6 +32,7 @@ public class TestCourseController {
         course.setcPictureUrl(null);
         course.setcType(null);
         course.setDelflag(null);
+        course.setcTag(null);
         Course course1 = courseController.addCourse(course);
         System.out.println(course1.toString());
     }
@@ -60,6 +61,13 @@ public class TestCourseController {
         course.setcPictureUrl(null);
         course.setcType(null);
         course.setDelflag(null);
-        //System.out.println(courseController.UpdCourse(course.getcId()).toString());
+        course.setcTag(null);
+        System.out.println(courseController.UpdCourse("1234",course));
+    }
+
+    /*删除课程*/
+    @Test
+    public void delCourse(){
+        courseController.delCourse("1234");
     }
 }

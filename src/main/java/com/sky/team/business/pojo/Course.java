@@ -1,5 +1,7 @@
 package com.sky.team.business.pojo;
 
+import org.springframework.data.annotation.Id;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
