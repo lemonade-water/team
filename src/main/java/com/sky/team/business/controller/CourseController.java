@@ -4,8 +4,8 @@ package com.sky.team.business.controller;
 import com.sky.team.business.pojo.CourseType;
 import com.sky.team.business.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,6 +17,7 @@ public class CourseController {
 
 
     /*得到所有课程分类*/
+    @RequestMapping(value = "/getCourseType")
     public HashMap<CourseType,List<CourseType>> getCourseType(){
 
         return courseService.getCourseType();

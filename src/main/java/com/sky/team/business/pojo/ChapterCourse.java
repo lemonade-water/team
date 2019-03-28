@@ -2,15 +2,32 @@ package com.sky.team.business.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class ChapterCourse implements Serializable {
 
     private String chapterId;
     private String cId;
-    private String chUrl;
     private String chIntro;
-    private Date chTime;
+    private String chSubsectionAccout;
     private String delflag;
+    private List<Subsection> subsectionList;
+
+    public List<Subsection> getSubsectionList() {
+        return subsectionList;
+    }
+
+    public void setSubsectionList(List<Subsection> subsectionList) {
+        this.subsectionList = subsectionList;
+    }
+
+    public String getChSubsectionAccout() {
+        return chSubsectionAccout;
+    }
+
+    public void setChSubsectionAccout(String chSubsectionAccout) {
+        this.chSubsectionAccout = chSubsectionAccout;
+    }
 
     public String getChapterId() {
         return chapterId;
@@ -28,14 +45,6 @@ public class ChapterCourse implements Serializable {
         this.cId = cId;
     }
 
-    public String getChUrl() {
-        return chUrl;
-    }
-
-    public void setChUrl(String chUrl) {
-        this.chUrl = chUrl;
-    }
-
     public String getChIntro() {
         return chIntro;
     }
@@ -44,13 +53,6 @@ public class ChapterCourse implements Serializable {
         this.chIntro = chIntro;
     }
 
-    public Date getChTime() {
-        return chTime;
-    }
-
-    public void setChTime(Date chTime) {
-        this.chTime = chTime;
-    }
 
     public String getDelflag() {
         return delflag;

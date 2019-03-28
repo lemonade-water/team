@@ -2,6 +2,7 @@ package com.sky.team.business.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class Course implements Serializable {
     private String cId;
@@ -18,6 +19,15 @@ public class Course implements Serializable {
     private String cUploader;
     private String cPictureUrl;
     private String cType;
+    private List<ChapterCourse> chapterCourseList;
+
+    public List<ChapterCourse> getChapterCourseList() {
+        return chapterCourseList;
+    }
+
+    public void setChapterCourseList(List<ChapterCourse> chapterCourseList) {
+        this.chapterCourseList = chapterCourseList;
+    }
 
     public String getcId() {
         return cId;
