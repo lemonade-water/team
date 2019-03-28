@@ -6,4 +6,11 @@
     <select id="getCourseList" resultType="com.sky.team.business.pojo.Course">
         select * from course;
     </select>
+
+
+
+    <!---->
+    <select id="getCourseType" resultType="com.sky.team.business.pojo.CourseType">
+        select * from coursetype order by c_tec_type;
+    </select>
 </mapper>
