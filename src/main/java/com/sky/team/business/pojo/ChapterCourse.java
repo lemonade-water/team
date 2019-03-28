@@ -7,7 +7,7 @@ public class ChapterCourse implements Serializable {
 
     private String chapterId;
     private String cId;
-    private String chIntro;
+    private String chName;
     private String chSubsectionAccout;
     private String delflag;
     private List<Subsection> subsectionList;
@@ -44,14 +44,13 @@ public class ChapterCourse implements Serializable {
         this.cId = cId;
     }
 
-    public String getChIntro() {
-        return chIntro;
+    public String getChName() {
+        return chName;
     }
 
-    public void setChIntro(String chIntro) {
-        this.chIntro = chIntro;
+    public void setChName(String chName) {
+        this.chName = chName;
     }
-
 
     public String getDelflag() {
         return delflag;

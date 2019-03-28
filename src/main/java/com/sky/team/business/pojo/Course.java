@@ -7,8 +7,8 @@ import java.util.List;
 public class Course implements Serializable {
     private String cId;
     private String cName;
-    private int cTecBigType;
-    private int cTecSmallType;
+    private Integer cTecBigType;
+    private Integer cTecSmallType;
     private String cIntro;
     private String cAuthor;
     private String cColumnIntro;
@@ -58,7 +58,7 @@ public class Course implements Serializable {
         return cTecBigType;
     }
 
-    public void setcTecBigType(int cTecBigType) {
+    public void setcTecBigType(Integer cTecBigType) {
         this.cTecBigType = cTecBigType;
     }
 
