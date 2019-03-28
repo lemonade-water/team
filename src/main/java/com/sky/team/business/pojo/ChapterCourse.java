@@ -1,7 +1,6 @@
 package com.sky.team.business.pojo;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 public class ChapterCourse implements Serializable {

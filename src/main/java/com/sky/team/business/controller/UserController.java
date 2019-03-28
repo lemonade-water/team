@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -65,6 +66,7 @@ public class UserController {
         Subject subject = SecurityUtils.getSubject();
         try{
             subject.login(usernamePasswordToken);
+            userService.updateLoginTime((String)subject.getPrincipal(),new Date());
             String jwt = JwtUtil.generateToken(user.getUserId());
             HttpSession session = request.getSession(true);
             return new HashMap<String,String>(){{
@@ -99,6 +101,18 @@ public class UserController {
         if(user.getUserEmail().contains("@")&&user.getUserId()!=null){
             userService.getEmail(user.getUserId(),user.getUserName(),user.getUserPassword(),user.getUserEmail());
             return true;
+
+        } return false;
+
+    }
+
+    @RequestMapping("/getEmail1")
+    public Boolean getEmail1(@RequestParam("userid")String userid,@RequestParam("useremail")String useremail,
+                            HttpServletRequest request){
+        /*验证邮箱是否正确*/
+        if(useremail.contains("@")&&userid!=null){
+            userService.getEmail(userid,null,null,useremail);
+           return true;
 
         } return false;
 

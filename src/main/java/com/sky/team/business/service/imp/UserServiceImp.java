@@ -84,6 +84,11 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    public void updateLoginTime(String userid, Date date) {
+        userDao.updateLoginTime(userid,date);
+    }
+
+    @Override
     @Transactional
     public void getEmail(String userid,String username, String userpassword, String useremail) {
         /*生成一个code*/
@@ -95,10 +100,15 @@ public class UserServiceImp implements UserService {
 
         /*发邮箱*/
         Executor executor =Executors.newCachedThreadPool();
-        executor.execute(()->{
-            sendEmail(useremail,code);
-            userDao.registerUser(userid,username,userpassword,useremail,code,new Date());
-        });
+        try{
+            executor.execute(()->{
+                sendEmail(useremail,code);
+                userDao.registerUser(userid,username,userpassword,useremail,code,new Date());
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
 
     }
 
