@@ -1,6 +1,8 @@
 package com.sky.team.business.service;
 
+import com.sky.team.business.pojo.Course;
 import com.sky.team.business.pojo.CourseType;
+import com.sky.team.business.util.PageHelper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +25,15 @@ public class TestService {
     public void getCourseType(){
         HashMap<CourseType, List<CourseType>> courseType = courseService.getCourseType();
         System.out.println(courseType);
+    }
+
+
+    @Test
+    public void getCourse(){
+        PageHelper pageHelper = new PageHelper();
+        pageHelper.setPage(1);
+        pageHelper.setQuery("深");
+        PageHelper allCourse = courseService.getAllCourse(pageHelper);
+        System.out.println(allCourse);
     }
 }

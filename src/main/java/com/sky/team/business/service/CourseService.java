@@ -2,6 +2,7 @@ package com.sky.team.business.service;
 
 import com.sky.team.business.pojo.Course;
 import com.sky.team.business.pojo.CourseType;
+import com.sky.team.business.util.PageHelper;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,4 +19,6 @@ public interface CourseService {
     public int delCourse(String cId);
     /*修改课程*/
     public int UpdCourse(Course course);
+
+    PageHelper getAllCourse(PageHelper pageHelper);
 }

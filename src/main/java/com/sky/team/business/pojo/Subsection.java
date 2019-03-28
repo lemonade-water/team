@@ -10,6 +10,24 @@ public class Subsection implements Serializable {
     private String videoUrl;
     private Date  videoTime;
     private String videoFormat;
+    private String videoName;
+    private Integer videoSize;
+
+    public String getVideoName() {
+        return videoName;
+    }
+
+    public void setVideoName(String videoName) {
+        this.videoName = videoName;
+    }
+
+    public Integer getVideoSize() {
+        return videoSize;
+    }
+
+    public void setVideoSize(Integer videoSize) {
+        this.videoSize = videoSize;
+    }
 
     public String getSubsectionId() {
         return subsectionId;

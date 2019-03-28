@@ -72,4 +72,123 @@
         </if>
         where course.c_id=#{cId}
     </update>
+
+    <select id="getCount" resultType="integer">
+        select count(1) from course where 1=1
+        <if test="param1!=null and param1!=''">
+           and  course.c_name like concat('%',#{param1},'%')
+        </if>
+        <if test="param2!=null and param2!=''">
+            and course.c_tec_big_type=#{param2}
+        </if>
+        <if test="param3!=null and param3!=''">
+            and course.c_tec_small_type=#{param3}
+        </if>
+        and course.c_type='1'
+    </select>
+
+    <!--private String cId;
+    private String cName;
+    private Integer cTecBigType;
+    private Integer cTecSmallType;
+    private String cIntro;
+    private String cAuthor;
+    private String cColumnIntro;
+    private String delflag;
+    private Integer cChapterCount;
+    private Integer cCollection;
+    private Date cUploadTime;
+    private String cUploader;
+    private String cPictureUrl;
+    private String cType;
+    private String cTag;
+    private List<ChapterCourse> chapterCourseList;-->
+    <!--
+    c_id：主键
+	c_name：课程名称
+	c_tec_big_type：课程大类型 （ 如果是极客时间自动爬下来的就不用填  为null）
+	c_tec_small_type ：课程小类型 （ 如果是极客时间自动爬下来的就不用填  为null）
+	c_intro：课程简介 ：
+	c_author：课程作者
+	c_column_intro：课程介绍
+	c_chapter_count：课程有多少章节
+	c_collection：课程订阅数或者收藏数
+	c_upload_time：课程上传时间
+	c_uploader：课程上传人
+	c_picture_url：课程封面地址
+	c_type：课程状态或者类型  （0：未审核，1：通过，2：不通过）
+	delflag：逻辑删除标记
+	c_tag：标签-->
+    <resultMap id="selectCourse" type="com.sky.team.business.pojo.Course">
+        <id column="c_id" property="cId"></id>
+        <result column="c_name" property="cName"></result>
+        <result column="c_tec_big_type" property="cTecBigType"></result>
+        <result column="c_tec_small_type" property="cTecSmallType"></result>
+        <result column="c_intro" property="cIntro"></result>
+        <result column="c_author" property="cAuthor"></result>
+        <result column="c_column_intro" property="cColumnIntro"></result>
+        <result column="delflag" property="delflag"></result>
+        <result column="c_chapter_count" property="cChapterCount"></result>
+        <result column="c_collection" property="cCollection"></result>
+        <result column="c_upload_time" property="cUploadTime"></result>
+        <result column="c_uploader" property="cUploader"></result>
+        <result column="c_picture_url" property="cPictureUrl"></result>
+        <result column="c_type" property="cType"></result>
+
+        <collection property="chapterCourseList" ofType="com.sky.team.business.pojo.ChapterCourse">
+            <id column="chapter_id" property="chapterId"></id>
+            <result column="c_id" property="cId"></result>
+            <result column="ch_name" property="chName"></result>
+            <result column="ch_subsection_accout" property="chSubsectionAccout"></result>
+            <result column="delflag" property="delflag"></result>
+            <collection property="subsectionList" ofType="com.sky.team.business.pojo.Subsection">
+                <id column="subsection_id" property="subsectionId"></id>
+                <result column="subsection_name" property="subsectionName" ></result>
+                <result column="chapter_id" property="chapterId" ></result>
+                <result column="video_name" property="videoName" ></result>
+                <result column="video_url" property="videoUrl" ></result>
+                <result column="video_time" property="videoTime" ></result>
+                <result column="video_format" property="videoFormat" ></result>
+                <result column="video_size" property="videoSize" ></result>
+            </collection>
+        </collection>
+
+        <!--
+        subsection_id：小节主键
+	subsection_name：小节名称
+	chapter_id:所属章节主键  （chapter_course主键）
+	video_name:  视频文件的名字：例：test.mp4
+	video_url：视频地址   例：深度学习应用实践60讲\video\第11讲离散特征如何让DNN可以处理1\test.mp4
+	video_time：视频时长
+	video_format：视频格式
+	video_size:视频字节大小
+        -->
+        <!--
+        private String chapterId;
+    private String cId;
+    private String chName;
+    private String chSubsectionAccout;
+    private String delflag;
+    private List<Subsection> subsectionList;-->
+        <!--
+        chapter_id：章节主键
+	c_id：课程主键  （course表的主键）
+	ch_name：章节名称
+	ch_subsection_accout：有多少个子节点
+	delflag：逻辑删除标记-->
+    </resultMap>
+    <select id="queryCourse" resultMap="selectCourse">
+        select * from course where 1=1
+        <if test="param1!=null and param1!=''">
+            and course.c_name like concat('%',#{param1},'%')
+        </if>
+        <if test="param2!=null and param2!=''">
+            and course.c_tec_big_type=#{param2}
+        </if>
+        <if test="param3!=null and param3!=''">
+            and course.c_tec_small_type=#{param3}
+        </if>
+        and course.c_type='1'
+        limit #{param4},#{param5}
+    </select>
 </mapper>

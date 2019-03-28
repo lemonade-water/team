@@ -21,7 +21,7 @@ public class Course implements Serializable {
     private String cUploader;
     private String cPictureUrl;
     private String cType;
-    private String cTag;
+    //private String cTag;
     private List<ChapterCourse> chapterCourseList;
 
     public List<ChapterCourse> getChapterCourseList() {
@@ -32,13 +32,7 @@ public class Course implements Serializable {
         this.chapterCourseList = chapterCourseList;
     }
 
-    public String getcTag() {
-        return cTag;
-    }
 
-    public void setcTag(String cTag) {
-        this.cTag = cTag;
-    }
 
     public String getcId() {
         return cId;

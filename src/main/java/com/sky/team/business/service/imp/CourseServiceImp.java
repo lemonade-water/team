@@ -4,6 +4,7 @@ import com.sky.team.business.dao.CourseDao;
 import com.sky.team.business.pojo.Course;
 import com.sky.team.business.pojo.CourseType;
 import com.sky.team.business.service.CourseService;
+import com.sky.team.business.util.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,5 +61,29 @@ public class CourseServiceImp implements CourseService {
     @Override
     public int UpdCourse(Course course) {
         return courseDao.UpdCourse(course);
+    }
+
+
+
+    @Override
+    @Transactional
+    public PageHelper getAllCourse(PageHelper pageHelper) {
+        Integer count = courseDao.getCount(pageHelper.getQuery(), pageHelper.getcTecBigType(), pageHelper.getcTecSmallType());
+        /*先查询总数*/
+        pageHelper.setTotalCount(count);
+        pageHelper.setLimit(8);
+        if(pageHelper.getPage()<=0){
+            pageHelper.setPage(1);
+        }
+        if(pageHelper.getPage()>pageHelper.getTotalCount()){
+            pageHelper.setPage(pageHelper.getTotalCount());
+        }
+        if(pageHelper.getPageIndex()<0){
+            pageHelper.setPageIndex(0);
+        }
+        List<Course> courses = courseDao.queryCourse(pageHelper.getQuery(), pageHelper.getcTecBigType(), pageHelper.getcTecSmallType(), pageHelper.getPageIndex(), pageHelper.getLimit());
+
+        pageHelper.setList(courses);
+        return pageHelper;
     }
 }
