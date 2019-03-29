@@ -17,29 +17,12 @@
     </select>
     <!--添加-->
     <insert id="addCourse" parameterType="com.sky.team.business.pojo.Course" >
-        insert into course
-        c_id
-        c_name
-        c_tec_big_type
-        c_tec_small_type
-        c_intro
-        c_author
-        c_column_intro
-        c_chapter_count
-        c_collection
-        c_upload_time
-        c_uploader
-        c_picture_url
-        c_type
-        delflag
-        c_tag
-        c_path
-         (c_id,c_name,c_tec_big_type,c_tec_small_type,c_intro,c_author,c_column_intro,c_chapter_count,c_collection,c_upload_time,c_uploader,c_picture_url,c_type,delflag,c_tag,c_path)
-        values (#{cId},#{cName},#{cTecBigType},#{cTecSmallType},#{cIntro},#{cAuthor},#{cColumnIntro},#{cChapterCount},#{cCollection},#{cUploadTime},#{cUploader},#{cPictureUrl},#{cType},#{delflag},#{cTag})
+        insert into course (c_id,c_name,c_tec_big_type,c_tec_small_type,c_intro,c_author,c_column_intro,c_chapter_count,c_collection,c_upload_time,c_uploader,c_picture_url,c_type,delflag,c_tag,c_path)
+        values (#{cId},#{cName},#{cTecBigType},#{cTecSmallType},#{cIntro},#{cAuthor},#{cColumnIntro},#{cChapterCount},#{cCollection},#{cUploadTime},#{cUploader},#{cPictureUrl},#{cType},#{delflag},#{cTag},#{cPath})
     </insert>
     <!--删除-->
     <delete id="delCourse" parameterType="String">
-        delete from course where c_id=#{cId}
+        update course set course.delflag = '1' where c_id=#{cId};
     </delete>
     <!--修改-->
     <update id="UpdCourse" parameterType="com.sky.team.business.pojo.Course">
