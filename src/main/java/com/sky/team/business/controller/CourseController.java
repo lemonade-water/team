@@ -23,7 +23,6 @@ public class CourseController {
     /*得到所有课程分类*/
     @RequestMapping(value = "/api/getCourseType")
     public HashMap<CourseType,List<CourseType>> getCourseType(){
-
         return courseService.getCourseType();
     }
 
@@ -63,9 +62,17 @@ public class CourseController {
 
 
     /*通过c_id获得章节和小节*/
-    @RequestMapping(value = "/getChapter")
+    @RequestMapping(value = "/api/getChapter")
     public List<Course> getChapter(@RequestParam("cId")String cId){
         return courseService.getChapter(cId);
     }
+
+
+    /*推荐接口*/
+    @RequestMapping(value = "/api/sketch/close",method = RequestMethod.GET)
+    public List<Course> getSketch(@RequestParam("cId")String cid){
+        return courseService.getSketchClose(cid);
+    }
+
 
 }

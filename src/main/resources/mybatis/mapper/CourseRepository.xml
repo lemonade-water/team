@@ -132,6 +132,7 @@
         <result column="c_uploader" property="cUploader"></result>
         <result column="c_picture_url" property="cPictureUrl"></result>
         <result column="c_type" property="cType"></result>
+        <result column="c_path" property="cPath"></result>
         <result column="c_tag" property="cTag"></result>
         <collection property="chapterCourseList" ofType="com.sky.team.business.pojo.ChapterCourse">
             <id column="chapter_id" property="chapterId"></id>
@@ -139,6 +140,7 @@
             <result column="ch_name" property="chName"></result>
             <result column="ch_subsection_accout" property="chSubsectionAccout"></result>
             <result column="delflag" property="delflag"></result>
+            <result column="ch_path" property="chPath"></result>
             <collection property="subsectionList" ofType="com.sky.team.business.pojo.Subsection">
                 <id column="subsection_id" property="subsectionId"></id>
                 <result column="subsection_name" property="subsectionName" ></result>
@@ -189,10 +191,22 @@
         and course.c_type='1'
         limit #{param4},#{param5}
     </select>
-    <select id="getChapter" resultType="com.sky.team.business.pojo.Course">
+    <select id="getChapter" resultMap="selectCourse">
         select * from course c
 	    left JOIN chapter_course cc on c.c_id=cc.c_id
 	    LEFT JOIN subsection s on s.chapter_id=cc.chapter_id
         where c.c_type='1' and c.delflag='0' and  c.c_id=#{param1}
     </select>
+    <select id="getSketchClose" resultMap="selectCourse">
+        select * from course where c_id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            <if test="item!='null' and item!=''">
+                #{item}
+            </if>
+        </foreach>
+    </select>
+    <select id="getSket" resultMap="selectCourse">
+        select * from course limit 0,#{param1}
+    </select>
+
 </mapper>

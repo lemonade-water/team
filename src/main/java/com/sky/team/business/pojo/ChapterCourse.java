@@ -9,7 +9,16 @@ public class ChapterCourse implements Serializable {
     private String chName;
     private String chSubsectionAccout;
     private String delflag;
+    private String chPath;
     private List<Subsection> subsectionList;
+
+    public String getChPath() {
+        return chPath;
+    }
+
+    public void setChPath(String chPath) {
+        this.chPath = chPath;
+    }
 
     public List<Subsection> getSubsectionList() {
         return subsectionList;

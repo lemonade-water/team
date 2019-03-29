@@ -33,4 +33,8 @@
     <insert id="addUser">
         insert  into  user(userid,username, userpassword, useremail,userdepartment,useremailCode,roleid) values (#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},'2');
     </insert>
+
+    <update id="updateLoginTime">
+        update user set user.userlasttime=#{param2} where user.userid=#{param1};
+    </update>
 </mapper>

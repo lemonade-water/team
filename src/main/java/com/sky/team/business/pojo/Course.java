@@ -19,12 +19,21 @@ public class Course implements Serializable {
     private String cUploader;
     private String cPictureUrl;
     private String cType;
+    private String cPath;
     private String cTag;
 
     private List<ChapterCourse> chapterCourseList;
 
     public List<ChapterCourse> getChapterCourseList() {
         return chapterCourseList;
+    }
+
+    public String getcPath() {
+        return cPath;
+    }
+
+    public void setcPath(String cPath) {
+        this.cPath = cPath;
     }
 
     public void setChapterCourseList(List<ChapterCourse> chapterCourseList) {

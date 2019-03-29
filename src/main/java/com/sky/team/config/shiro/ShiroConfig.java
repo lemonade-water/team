@@ -64,7 +64,7 @@ public class ShiroConfig {
 //        map.put("/websocket/**","anon");
 //        map.put("/","anon");
 //        map.put("/static/**","anon");
-        map.put("/**","anon");
+         map.put("/**","anon");
         /*不拦截找回密码uri*/
 
         //登录

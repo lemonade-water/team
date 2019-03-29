@@ -1,5 +1,7 @@
 package com.sky.team.business.service.imp;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.sky.team.business.dao.CourseDao;
 import com.sky.team.business.dao.CourseTypeDao;
 import com.sky.team.business.pojo.Course;
@@ -7,8 +9,10 @@ import com.sky.team.business.pojo.CourseType;
 import com.sky.team.business.service.CourseService;
 import com.sky.team.business.util.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +26,12 @@ public class CourseServiceImp implements CourseService {
 
     @Autowired
     private CourseTypeDao courseTypeDao;
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @Value("${sketchNum}")
+    private Integer sketchNum;
     @Override
     @Transactional
     public HashMap<CourseType, List<CourseType>> getCourseType() {
@@ -31,7 +41,6 @@ public class CourseServiceImp implements CourseService {
         }
         HashMap<CourseType, List<CourseType>> hashMap = new HashMap<>();
         for(CourseType courseType:list){
-
             if(courseType.getGrade().equals("1")){
                 List<CourseType> courseTypeList = new ArrayList<>();
                 for(CourseType courseType1:list){
@@ -94,5 +103,24 @@ public class CourseServiceImp implements CourseService {
     @Override
     public List<Course> getChapter(String cId) {
         return courseDao.getChapter(cId);
+    }
+
+    @Override
+    public List<Course> getSketchClose(String cid) {
+        try{
+            String url = "http://192.168.43.163:5000/sketch/close?pid="+cid+"&num="+sketchNum;
+            String s = restTemplate.getForObject(url, String.class);
+            JSONObject jsonObject = JSONObject.parseObject(s);
+            JSONArray flag = jsonObject.getJSONArray("flag");
+
+            return courseDao.getSketchClose(flag);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            /**/
+            return courseDao.getSket(sketchNum);
+
+        }
+
     }
 }

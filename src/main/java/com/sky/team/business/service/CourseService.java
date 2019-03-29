@@ -23,4 +23,6 @@ public interface CourseService {
     PageHelper getAllCourse(PageHelper pageHelper);
 
     List<Course> getChapter(String cId);
+
+    List<Course> getSketchClose(String cid);
 }

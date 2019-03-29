@@ -1,6 +1,7 @@
 package com.sky.team.business.dao;
 
 
+import com.alibaba.fastjson.JSONArray;
 import com.sky.team.business.pojo.Course;
 import org.springframework.stereotype.Repository;
 
@@ -30,4 +31,8 @@ public interface CourseDao {
      int getCourseCount(String query,Integer cTecBigType,Integer cTecSmallType);
 
     List<Course> queryCourse(String query, Integer cTecBigType, Integer cTecSmallType, int pageIndex, int i);
+
+    List<Course> getSketchClose(JSONArray list);
+
+    List<Course> getSket(Integer limit);
 }
