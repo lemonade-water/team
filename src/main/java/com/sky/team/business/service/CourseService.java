@@ -21,4 +21,6 @@ public interface CourseService {
     public int UpdCourse(Course course);
 
     PageHelper getAllCourse(PageHelper pageHelper);
+
+    List<Course> getChapter(String cId);
 }

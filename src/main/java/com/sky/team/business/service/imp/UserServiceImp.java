@@ -83,7 +83,7 @@ public class UserServiceImp implements UserService {
         return false;
     }
 
-    @Override
+
     public void updateLoginTime(String userid, Date date) {
         userDao.updateLoginTime(userid,date);
     }

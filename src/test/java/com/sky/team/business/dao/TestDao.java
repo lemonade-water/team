@@ -16,12 +16,13 @@ public class TestDao {
 
     @Autowired
     private CourseDao courseDao;
-
+    @Autowired
+    private CourseTypeDao courseTypeDao;
 
 
     @Test
     public void getCourseType(){
-        List<CourseType> courseType = courseDao.getCourseType();
+        List<CourseType> courseType = courseTypeDao.getCourseType();
         System.out.println(courseType.get(1).getParentType());
         System.out.println(courseType.get(1).getcTecType());
         System.out.println(courseType.get(1).getcTecTypeName());

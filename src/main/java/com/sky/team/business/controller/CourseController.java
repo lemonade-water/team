@@ -62,4 +62,10 @@ public class CourseController {
     }
 
 
+    /*通过c_id获得章节和小节*/
+    @RequestMapping(value = "/getChapter")
+    public List<Course> getChapter(@RequestParam("cId")String cId){
+        return courseService.getChapter(cId);
+    }
+
 }

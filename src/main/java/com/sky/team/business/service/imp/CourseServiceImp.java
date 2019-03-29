@@ -1,6 +1,7 @@
 package com.sky.team.business.service.imp;
 
 import com.sky.team.business.dao.CourseDao;
+import com.sky.team.business.dao.CourseTypeDao;
 import com.sky.team.business.pojo.Course;
 import com.sky.team.business.pojo.CourseType;
 import com.sky.team.business.service.CourseService;
@@ -18,10 +19,13 @@ public class CourseServiceImp implements CourseService {
 
     @Autowired
     private CourseDao courseDao;
+
+    @Autowired
+    private CourseTypeDao courseTypeDao;
     @Override
     @Transactional
     public HashMap<CourseType, List<CourseType>> getCourseType() {
-        List<CourseType> list = courseDao.getCourseType();
+        List<CourseType> list = courseTypeDao.getCourseType();
         if(list.size()==0){
             return null;
         }
@@ -68,7 +72,7 @@ public class CourseServiceImp implements CourseService {
     @Override
     @Transactional
     public PageHelper getAllCourse(PageHelper pageHelper) {
-        Integer count = courseDao.getCount(pageHelper.getQuery(), pageHelper.getcTecBigType(), pageHelper.getcTecSmallType());
+        Integer count = courseDao.getCourseCount(pageHelper.getQuery(), pageHelper.getcTecBigType(), pageHelper.getcTecSmallType());
         /*先查询总数*/
         pageHelper.setTotalCount(count);
         pageHelper.setLimit(8);
@@ -85,5 +89,10 @@ public class CourseServiceImp implements CourseService {
 
         pageHelper.setList(courses);
         return pageHelper;
+    }
+
+    @Override
+    public List<Course> getChapter(String cId) {
+        return courseDao.getChapter(cId);
     }
 }
