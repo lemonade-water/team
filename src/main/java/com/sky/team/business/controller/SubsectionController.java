@@ -1,12 +1,11 @@
 package com.sky.team.business.controller;
 
 //import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -18,16 +17,21 @@ import java.util.UUID;
 /**
  * 文件上传
  */
-@Controller
+@RestController
 public class SubsectionController {
 
-    @GetMapping(value = "/file")
+    @GetMapping(value = "file")
     public String file() {
         return "file";
     }
 
-    @PostMapping(value = "/fileUpload")
-    public String fileUpload(@RequestParam(value = "file") MultipartFile file, Model model, HttpServletRequest request) {
+    @GetMapping(value = "/")
+    public String test() {
+        return "forward:/video.html";
+    }
+
+    @RequestMapping(value = "/fileUpload",method=RequestMethod.POST)
+    public String fileUpload(MultipartFile file, HttpServletRequest request) {
         if (file.isEmpty()) {
             System.out.println("文件为空");
         }
@@ -45,20 +49,9 @@ public class SubsectionController {
             e.printStackTrace();
         }
         String filename = "/temp-rainy/" + fileName;
-        model.addAttribute("filename", filename);
         return "file";
     }
 
-    /**
-     * 资源映射路径
-     */
-    @Configuration
-    public class MyWebAppConfigurer implements WebMvcConfigurer {
-        @Override
-        public void addResourceHandlers(ResourceHandlerRegistry registry) {
-            registry.addResourceHandler("/temp-rainy/**").addResourceLocations("file:D:/temp-rainy/");
-        }
-    }
 
 }
 

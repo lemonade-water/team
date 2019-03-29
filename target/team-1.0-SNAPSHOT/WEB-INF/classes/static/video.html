@@ -3,16 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>video</title>
+    <script type="text/javascript">
+        var subsection=[
+            ["前端/后端","java","PHP","Python"],
+            ["移动开发/游戏","Android","IOS","Unity 3D"],
+            ["其他","运营","产品","管理"]
+        ];
+        function show(val){
+            for(i=0;i<subsection.length;i++){ //循环遍历，一维数组长度
+                if(subsection[i][0]==val){  //一维数组下标为0的元素即省 与下拉菜单值比较
+                    document.getElementById("subsection").length=1;  // subsection 长度设为1
+                    for(j=1;j<subsection[i].length;j++){ //循环遍历，二维数组长度
+                        document.getElementById("subsection").add(
+                            new Option(subsection[i][j]));  //给subsection赋新cities选出的值
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 <body>
 <div class="panel panel-default">
     <div class="panel-body">
         <div class="panel-heading" align="center"><h1 class="sub-header h3">文件上传</h1></div>
         <hr>
-        <form class="form-horizontal" id="upload" method="post" action="uploadflv/upload.do" enctype="multipart/form-data">
+        <form class="form-horizontal" id="upload" method="POST" action="/fileUpload" enctype="multipart/form-data">
             <div class="form-group" align="center">
                 <div class="col-md-4 col-sm-4  col-xs-4 col-lg-4">文件上传
                     <input type="file" class="form-control" name="file" id="file"><br>
+                    上传至：
+                    <select  id="chapter" onchange="show(this.value)">
+                        <option value="">-请选择-</option>
+                        <option value="前端/后端">前端/后端</option>
+                        <option value="移动开发/游戏">移动开发/游戏</option>
+                        <option value="其他">其他</option>
+                    </select>
+                    <select id="subsection">
+                        <option value="">-请选择-</option>
+                    </select>
                     <input type="submit" value="上传">
                 </div>
             </div>
