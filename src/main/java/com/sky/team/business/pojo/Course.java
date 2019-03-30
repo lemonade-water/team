@@ -80,9 +80,7 @@ public class Course implements Serializable {
         return cTecSmallType;
     }
 
-    public void setcTecSmallType(int cTecSmallType) {
-        this.cTecSmallType = cTecSmallType;
-    }
+
 
     public String getcIntro() {
         return cIntro;

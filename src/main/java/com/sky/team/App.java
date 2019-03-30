@@ -1,7 +1,6 @@
 package com.sky.team;
 
 
-import com.sky.team.config.Jwt.JwtAuthenticationFilter;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -20,12 +19,5 @@ public class App extends SpringBootServletInitializer {
         return builder.sources(App.class);
     }
 
-    /*过滤器*/
-    //@Bean
-    public FilterRegistrationBean jwtFilter() {
-        final FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-        JwtAuthenticationFilter filter = new JwtAuthenticationFilter();
-        registrationBean.setFilter(filter);
-        return registrationBean;
-    }
+
 }

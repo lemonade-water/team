@@ -9,7 +9,7 @@ import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreato
 import org.springframework.context.annotation.Bean;
 import org.apache.shiro.mgt.SecurityManager;
 import org.springframework.context.annotation.Configuration;
-
+import javax.servlet.Filter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,8 +52,13 @@ public class ShiroConfig {
     @Bean
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
+
+//        Map<String, Filter> filterMap = new HashMap<>();
+//        filterMap.put("jwt", new JWTFilter());
+//        shiroFilterFactoryBean.setFilters(filterMap);
+
         shiroFilterFactoryBean.setSecurityManager(securityManager);
-        Map<String,String> map = new HashMap<String, String>();
+        Map<String,String> map = new HashMap<>();
         //登出
 //        map.put("/logout","logout");
 //        //对所有用户认证
@@ -65,6 +70,7 @@ public class ShiroConfig {
 //        map.put("/","anon");
 //        map.put("/static/**","anon");
          map.put("/**","anon");
+        //map.put("/**","jwt");
         /*不拦截找回密码uri*/
 
         //登录

@@ -59,7 +59,7 @@ public class TestController {
     @Test
     public void autologin() throws Exception {
 
-        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post("/api/autoLogin")
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post("/api/getCourseType")
                         .header("Authorization","'Bearer eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTcyNzkzMzcsInVzZXJuYW1lIjoiMTExIn0.SbvWPvaYEiWJYIRdHXvdNd09NHHzr7KpMQA5HgruPQXdnSWF2lu0tnliYOVZ-B_dj1rgeGSmMTN3_FGtCbRfpw'")
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
 

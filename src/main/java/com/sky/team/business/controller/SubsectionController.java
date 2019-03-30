@@ -25,10 +25,6 @@ public class SubsectionController {
         return "file";
     }
 
-    @GetMapping(value = "/")
-    public String test() {
-        return "forward:/video.html";
-    }
 
     @RequestMapping(value = "/fileUpload",method=RequestMethod.POST)
     public String fileUpload(MultipartFile file, HttpServletRequest request) {

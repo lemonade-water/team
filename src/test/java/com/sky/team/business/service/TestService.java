@@ -36,4 +36,24 @@ public class TestService {
         PageHelper allCourse = courseService.getAllCourse(pageHelper);
         System.out.println(allCourse);
     }
+
+
+    /*课程推荐*/
+    @Test
+    public void setch(){
+        courseService.getSketchClose("2");
+    }
+
+    /*测试添加课程*/
+    @Test
+    public void addCourse(){
+        Course course = new Course();
+        course.setcName("课程名字");
+        course.setcTecBigType(1);
+        course.setcTecSmallType(8);
+        course.setcAuthor("课程作者");
+        course.setcIntro("课程简介");
+        courseService.addCourse(course);
+
+    }
 }

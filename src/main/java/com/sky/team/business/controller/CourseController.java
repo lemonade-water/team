@@ -1,15 +1,12 @@
 package com.sky.team.business.controller;
 
 
-import com.alibaba.fastjson.JSONObject;
 import com.sky.team.business.pojo.Course;
 import com.sky.team.business.pojo.CourseType;
 import com.sky.team.business.service.CourseService;
 import com.sky.team.business.util.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.awt.print.Pageable;
 import java.util.HashMap;
 import java.util.List;
 

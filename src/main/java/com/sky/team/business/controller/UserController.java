@@ -1,11 +1,14 @@
 package com.sky.team.business.controller;
 
 
+import com.alibaba.fastjson.JSONObject;
+import com.sky.team.business.dao.UserDao;
 import com.sky.team.business.pojo.User;
 import com.sky.team.business.service.UserService;
 import com.sky.team.business.util.JwtUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +30,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserDao userDao;
 
     /*每个方法对应
 
@@ -67,7 +72,9 @@ public class UserController {
             subject.login(usernamePasswordToken);
             userService.updateLoginTime((String)subject.getPrincipal(),new Date());
             String jwt = JwtUtil.generateToken(user.getUserId());
-            HttpSession session = request.getSession(true);
+            Session session = subject.getSession();
+            User user1 = userDao.getUser(user.getUserId());
+            session.setAttribute("user",user1);
             return new HashMap<String,String>(){{
                 put("token", jwt);
             }};

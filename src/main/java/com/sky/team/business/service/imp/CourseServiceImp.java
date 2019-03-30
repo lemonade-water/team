@@ -6,17 +6,21 @@ import com.sky.team.business.dao.CourseDao;
 import com.sky.team.business.dao.CourseTypeDao;
 import com.sky.team.business.pojo.Course;
 import com.sky.team.business.pojo.CourseType;
+import com.sky.team.business.pojo.User;
 import com.sky.team.business.service.CourseService;
 import com.sky.team.business.util.PageHelper;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class CourseServiceImp implements CourseService {
@@ -32,6 +36,12 @@ public class CourseServiceImp implements CourseService {
 
     @Value("${sketchNum}")
     private Integer sketchNum;
+
+    @Value("${video-path}")
+    private String videoPath;
+
+    @Value("${video-path-yhsc}")
+    private String videoPathYhsc;
     @Override
     @Transactional
     public HashMap<CourseType, List<CourseType>> getCourseType() {
@@ -61,7 +71,52 @@ public class CourseServiceImp implements CourseService {
 
 
     @Override
+    @Transactional
     public Course addCourse(Course course) {
+        /*
+        * 生成视频目录  通过时间
+        * 创建文件夹
+        * */
+        String principal;
+        try{
+            principal= (String)SecurityUtils.getSubject().getPrincipal();
+        }catch (Exception e){
+          principal="2430";
+        }
+        Date date =new Date();
+        String s = String.valueOf(date.getTime());
+        String path = principal+ File.separator+s;
+        course.setcPath(path);
+        course.setcId(s);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD HH-mm-ss");
+        simpleDateFormat.format(date);
+        course.setcUploadTime(date);
+        /*session*/
+        try{
+            Session session = SecurityUtils.getSubject().getSession(false);
+            User user = (User)session.getAttribute("user");
+            course.setcUploader(user.getUserName());
+            if(user.getRole().getRoleId().equals("1")||user.getRole().getRoleName().equals("管理员")){
+                course.setcType("1");
+            }else {
+                course.setcType("0");
+            }
+        }catch (Exception e){
+            course.setcUploader("管理员");
+            course.setcType("0");
+        }
+
+
+        /*建文件夹*/
+
+        File file = new File(videoPath+videoPathYhsc+path);
+
+        if(file.exists()){
+            file.mkdirs();
+        }else{
+            file.mkdirs();
+        }
+
         courseDao.addCourse(course);
         return course;
     }
