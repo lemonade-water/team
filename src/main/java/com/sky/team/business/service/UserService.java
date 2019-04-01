@@ -1,5 +1,6 @@
 package com.sky.team.business.service;
 
+import com.sky.team.business.pojo.ResultMessage;
 import com.sky.team.business.pojo.User;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 
@@ -12,4 +13,6 @@ public interface UserService {
     boolean register(User user);
     void updateLoginTime(String userid,Date date);
     void getEmail(String userid,String usernmae, String userpassword, String useremail);
+
+    void updateGetEmail(User user);
 }

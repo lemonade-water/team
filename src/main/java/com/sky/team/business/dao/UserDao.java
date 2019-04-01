@@ -19,4 +19,6 @@ public interface UserDao {
     void addUser(String userId,String userName,String userPassword,String userEmail,String userEmailCode,String userDepartment);
 
     void updateLoginTime(String userid, Date date);
+
+    void updatePassword(User user);
 }

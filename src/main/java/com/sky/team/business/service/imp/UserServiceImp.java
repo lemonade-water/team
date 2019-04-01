@@ -3,6 +3,7 @@ package com.sky.team.business.service.imp;
 
 import com.sky.team.business.dao.CourseDao;
 import com.sky.team.business.dao.UserDao;
+import com.sky.team.business.pojo.ResultMessage;
 import com.sky.team.business.pojo.User;
 import com.sky.team.business.service.UserService;
 import org.apache.commons.mail.EmailException;
@@ -109,6 +110,34 @@ public class UserServiceImp implements UserService {
             e.printStackTrace();
         }
 
+
+    }
+
+    /*修改密码的时候的发送邮箱*/
+    @Override
+    public void updateGetEmail(User user) {
+        /*
+        * 验证这个人的邮箱是否正确
+        * */
+        User user1 = userDao.getUser(user.getUserId());
+        if(user1.getUserEmail().equals(user.getUserEmail())) {
+            /*生成一个code*/
+
+            String code = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 5);
+
+            /*王数据库里面插入数据*/
+
+
+            /*发邮箱*/
+            Executors.newSingleThreadExecutor().execute(()->{
+                sendEmail(user.getUserEmail(),code);
+                userDao.registerUser(user.getUserId(),null,null,user.getUserEmail(),code,new Date());
+            });
+//            MyThread myThread = new MyThread(user.getUserId(), user.getUserEmail(), code, hostemail, hostpwd);
+//            Executors.newCachedThreadPool().execute(myThread);
+//            userDao.registerUser(user.getUserId(), null, null, user.getUserEmail(), code, new Date());
+
+        }
 
     }
 

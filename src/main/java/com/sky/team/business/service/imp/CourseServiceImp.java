@@ -46,6 +46,10 @@ public class CourseServiceImp implements CourseService {
 
     @Value("${video-static-pattern}")
     private String videoStaticPattern;
+
+    /*阿星*/
+    @Value("${IntelligenceIP}")
+    private String IntelligenceIP;
     @Override
     @Transactional
     public HashMap<CourseType, List<CourseType>> getCourseType() {
@@ -176,7 +180,7 @@ public class CourseServiceImp implements CourseService {
     @Override
     public List<Course> getSketchClose(String cid) {
         try{
-            String url = "http://192.168.43.163:5000/sketch/close?pid="+cid+"&num="+sketchNum;
+            String url = IntelligenceIP+"/sketch/close?pid="+cid+"&num="+sketchNum;
             String s = restTemplate.getForObject(url, String.class);
             JSONObject jsonObject = JSONObject.parseObject(s);
             JSONArray flag = jsonObject.getJSONArray("flag");

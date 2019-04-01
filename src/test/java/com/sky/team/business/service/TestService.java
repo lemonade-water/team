@@ -1,14 +1,19 @@
 package com.sky.team.business.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.sky.team.business.pojo.Course;
 import com.sky.team.business.pojo.CourseType;
 import com.sky.team.business.util.PageHelper;
+import jdk.management.resource.internal.inst.FileOutputStreamRMHooks;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.client.RestTemplate;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,8 +24,10 @@ public class TestService {
     /*fdfd*/
     @Autowired
     private CourseService courseService;
-
-
+    @Autowired
+    private RestTemplate restTemplate;
+    @Value("${IntelligenceIP}")
+    private String IntelligenceIP;
     @Test
     public void getCourseType(){
         HashMap<CourseType, List<CourseType>> courseType = courseService.getCourseType();
@@ -56,4 +63,15 @@ public class TestService {
         courseService.addCourse(course);
 
     }
+    
+    @Test
+    public void aaa() throws UnsupportedEncodingException {
+        String url = IntelligenceIP+"/sketch/sensitive?txt="+"妈**的 哈哈";
+        String forObject = restTemplate.getForObject(url, String.class);
+        System.out.println(forObject);
+        JSONObject jsonObject = JSONObject.parseObject(forObject);
+        String outtxt = jsonObject.getString("outtxt");
+        System.out.println(new String(outtxt.getBytes(),"UTF-8"));
+    }
+
 }

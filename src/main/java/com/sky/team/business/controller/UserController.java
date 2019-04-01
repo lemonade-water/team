@@ -3,11 +3,13 @@ package com.sky.team.business.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sky.team.business.dao.UserDao;
+import com.sky.team.business.pojo.ResultMessage;
 import com.sky.team.business.pojo.User;
 import com.sky.team.business.service.UserService;
 import com.sky.team.business.util.JwtUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -177,9 +179,52 @@ public class UserController {
     }
 
     /*修改密码*/
-    @RequestMapping("/updatepassword")
-    public boolean updatepassword(){
-        return false;
+    @RequestMapping("/api/updatePassword")
+    public ResultMessage updatepassword(@RequestBody User user){
+        if(user.getUserId()==null&&user.getUserEmail()==null){
+            return ResultMessage.setResultMessage("404","账号或者邮箱不能为空");
+        }else{
+            /*跟改密码*/
+            User user1 = userDao.selectRegister(user.getUserId(), user.getUserEmail());
+            if(user1!=null&&user1.getUserEmailCode().equals(user.getUserEmailCode())){
+                Date userLastTime = user1.getUserLastTime();
+                if((new Date().getTime()-userLastTime.getTime())>=150000l){
+                    return ResultMessage.setResultMessage("402","邮箱验证超时");
+                }
+                String hashAlgorithmName = "MD5";
+                String credentials = user.getUserPassword();
+                int hashIterations = 1024;
+                Object obj = new SimpleHash(hashAlgorithmName, credentials, null, hashIterations);
+                /*插入数据*/
+                user.setUserPassword(obj.toString());
+                /*根据用户*/
+                userDao.updatePassword(user);
+            }
+
+        }
+        return null;
     }
 
+    /*修改密码的时候邮箱*/
+    @RequestMapping("/api/updateGetEmail")
+    public ResultMessage getEmail(@RequestBody User user){
+        try{
+            String principal = (String)SecurityUtils.getSubject().getPrincipal();
+
+            if(principal==null){
+                user.setUserId(user.getUserId());
+            }else{
+                user.setUserId  (principal);
+            }
+        }catch (Exception e){
+            user.setUserId(user.getUserId());
+        }
+
+        if(user.getUserEmail()==null){
+            return ResultMessage.setResultMessage("404","邮箱不能为空");
+        }else{
+            userService.updateGetEmail(user);
+            return ResultMessage.setResultMessage("200","成功");
+        }
+    }
 }
