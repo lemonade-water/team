@@ -5,7 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface PersonVideoService {
 
-    /*添加课程*/
+    /*用户上传*/
     public PersonVideo userUpload(MultipartFile file);
 
 }
