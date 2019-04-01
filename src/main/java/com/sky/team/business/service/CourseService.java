@@ -1,5 +1,6 @@
 package com.sky.team.business.service;
 
+import com.sky.team.business.pojo.ChapterCourse;
 import com.sky.team.business.pojo.Course;
 import com.sky.team.business.pojo.CourseType;
 import com.sky.team.business.util.PageHelper;
@@ -25,4 +26,6 @@ public interface CourseService {
     List<Course> getChapter(String cId);
 
     List<Course> getSketchClose(String cid);
+
+    boolean addChapter(ChapterCourse chapterCourse);
 }

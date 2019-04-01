@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sky.team.business.dao.CourseDao;
 import com.sky.team.business.dao.CourseTypeDao;
+import com.sky.team.business.pojo.ChapterCourse;
 import com.sky.team.business.pojo.Course;
 import com.sky.team.business.pojo.CourseType;
 import com.sky.team.business.pojo.User;
@@ -42,6 +43,9 @@ public class CourseServiceImp implements CourseService {
 
     @Value("${video-path-yhsc}")
     private String videoPathYhsc;
+
+    @Value("${video-static-pattern}")
+    private String videoStaticPattern;
     @Override
     @Transactional
     public HashMap<CourseType, List<CourseType>> getCourseType() {
@@ -86,7 +90,7 @@ public class CourseServiceImp implements CourseService {
         Date date =new Date();
         String s = String.valueOf(date.getTime());
         String path = principal+ File.separator+s;
-        course.setcPath(path);
+
         course.setcId(s);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD HH-mm-ss");
         simpleDateFormat.format(date);
@@ -116,7 +120,7 @@ public class CourseServiceImp implements CourseService {
         }else{
             file.mkdirs();
         }
-
+        course.setcPath(videoStaticPattern+videoPathYhsc+path);
         courseDao.addCourse(course);
         return course;
     }
@@ -177,5 +181,12 @@ public class CourseServiceImp implements CourseService {
 
         }
 
+    }
+
+    @Override
+    public boolean addChapter(ChapterCourse chapterCourse) {
+        /*添加课程章节*/
+
+        return false;
     }
 }

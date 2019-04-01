@@ -1,6 +1,7 @@
 package com.sky.team.business.controller;
 
 
+import com.sky.team.business.pojo.ChapterCourse;
 import com.sky.team.business.pojo.Course;
 import com.sky.team.business.pojo.CourseType;
 import com.sky.team.business.service.CourseService;
@@ -72,4 +73,9 @@ public class CourseController {
     }
 
 
+    /*添加章节*/
+    @RequestMapping(value = "/api/addChapter")
+    public boolean addChapter(ChapterCourse chapterCourse){
+        return courseService.addChapter(chapterCourse);
+    }
 }
