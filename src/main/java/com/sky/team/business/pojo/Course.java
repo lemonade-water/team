@@ -21,11 +21,29 @@ public class Course implements Serializable {
     private String cType;
     private String cPath;
     private String cTag;
-
+    private Integer count;
+    /*看了多少个*/
+    private Integer lookCount;
     private List<ChapterCourse> chapterCourseList;
 
     public List<ChapterCourse> getChapterCourseList() {
         return chapterCourseList;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
+    public Integer getLookCount() {
+        return lookCount;
+    }
+
+    public void setLookCount(Integer lookCount) {
+        this.lookCount = lookCount;
     }
 
     public String getcPath() {

@@ -135,6 +135,8 @@
         <result column="c_type" property="cType"></result>
         <result column="c_path" property="cPath"></result>
         <result column="c_tag" property="cTag"></result>
+        <result column="lookcount" property="lookCount"></result>
+        <result column="count1" property="count"></result>
         <collection property="chapterCourseList" ofType="com.sky.team.business.pojo.ChapterCourse">
             <id column="chapter_id" property="chapterId"></id>
             <result column="c_id" property="cId"></result>
@@ -179,7 +181,10 @@
 	delflag：逻辑删除标记-->
     </resultMap>
     <select id="queryCourse" resultMap="selectCourse">
-        select * from course where 1=1
+        select * from course
+        LEFT JOIN (select c.c_id,count(1) as count1 from course c LEFT JOIN chapter_course cc ON cc.c_id = c.c_id LEFT JOIN subsection s on s.chapter_id = cc.chapter_id GROUP BY c.c_id ) cc ON cc.c_id = course.c_id
+        LEFT JOIN (select c_id,COUNT(1) as lookcount from u_course where u_course.u_id = #{param6} GROUP BY c_id) uu ON course.c_id=uu.c_id
+        where 1=1
         <if test="param1!=null and param1!=''">
             and course.c_name like concat('%',#{param1},'%')
         </if>

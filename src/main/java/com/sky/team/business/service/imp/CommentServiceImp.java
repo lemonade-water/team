@@ -7,6 +7,8 @@ import com.sky.team.business.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CommentServiceImp implements CommentService {
 
@@ -23,5 +25,15 @@ public class CommentServiceImp implements CommentService {
             return ResultMessage.setResultMessage("400","评论失败");
         }
 
+    }
+
+    @Override
+    public List<Comment> getComment(String cId) {
+        return commentDao.getComment(cId);
+    }
+
+    @Override
+    public boolean delcomment(String commentid) {
+        return commentDao.delcomment(commentid);
     }
 }

@@ -74,6 +74,8 @@ public class CourseServiceImp implements CourseService {
     }
 
 
+
+    /*管理员*/
     @Override
     @Transactional
     public Course addCourse(Course course) {
@@ -112,7 +114,7 @@ public class CourseServiceImp implements CourseService {
 
 
         /*建文件夹*/
-
+        //path = principal+ File.separator+s
         File file = new File(videoPath+videoPathYhsc+path);
 
         if(file.exists()){
@@ -153,7 +155,14 @@ public class CourseServiceImp implements CourseService {
         if(pageHelper.getPageIndex()<0){
             pageHelper.setPageIndex(0);
         }
-        List<Course> courses = courseDao.queryCourse(pageHelper.getQuery(), pageHelper.getcTecBigType(), pageHelper.getcTecSmallType(), pageHelper.getPageIndex(), pageHelper.getLimit());
+        String  principal;
+        try{
+            principal= (String)SecurityUtils.getSubject().getPrincipal();
+        }catch (Exception e){
+            principal="2430";
+        }
+
+        List<Course> courses = courseDao.queryCourse(pageHelper.getQuery(), pageHelper.getcTecBigType(), pageHelper.getcTecSmallType(), pageHelper.getPageIndex(), pageHelper.getLimit(),principal);
 
         pageHelper.setList(courses);
         return pageHelper;

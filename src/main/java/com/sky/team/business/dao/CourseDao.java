@@ -30,7 +30,7 @@ public interface CourseDao {
     * */
      int getCourseCount(String query,Integer cTecBigType,Integer cTecSmallType);
 
-    List<Course> queryCourse(String query, Integer cTecBigType, Integer cTecSmallType, int pageIndex, int i);
+    List<Course> queryCourse(String query, Integer cTecBigType, Integer cTecSmallType, int pageIndex, int i,String u_id);
 
     List<Course> getSketchClose(JSONArray list);
 

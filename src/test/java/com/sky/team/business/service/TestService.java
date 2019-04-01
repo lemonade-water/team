@@ -32,7 +32,7 @@ public class TestService {
     public void getCourse(){
         PageHelper pageHelper = new PageHelper();
         pageHelper.setPage(1);
-        pageHelper.setQuery("深");
+        pageHelper.setQuery("");
         PageHelper allCourse = courseService.getAllCourse(pageHelper);
         System.out.println(allCourse);
     }

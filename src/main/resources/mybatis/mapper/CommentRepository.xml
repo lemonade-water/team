@@ -7,5 +7,21 @@
         insert into comment(commentid,parentid,commenttext,commentuserid,commentusername,commentdate,c_id)
         values (#{commentId},#{parentId},#{commentText},#{commentUserId},#{commentUserName},#{commentDate},#{cId});
     </insert>
+    <resultMap id="selectComment" type="com.sky.team.business.pojo.Comment">
+        <id property="cId" column="cid"></id>
+        <result property="commentDate" column="commentdate"></result>
+        <result property="commentId" column="commentid"></result>
+        <result property="commentText" column="commenttext"></result>
+        <result property="commentUserId" column="commentuserid"></result>
+        <result property="commentUserName" column="commentusername"></result>
+        <result property="parentId" column="parentid"></result>
+    </resultMap>
+    <select id="getComment" resultMap="selectComment">
+        select * from comment order by comment.commentdate
+    </select>
+
+    <delete id="delcomment">
+        delete from comment where comment.commentid=#{param1}
+    </delete>
 </mapper>
 
