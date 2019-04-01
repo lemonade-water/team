@@ -129,10 +129,19 @@ public class UserServiceImp implements UserService {
 
 
             /*发邮箱*/
-            Executors.newSingleThreadExecutor().execute(()->{
-                sendEmail(user.getUserEmail(),code);
-                userDao.registerUser(user.getUserId(),null,null,user.getUserEmail(),code,new Date());
-            });
+//            Executors.newSingleThreadExecutor().execute(()->{
+//                sendEmail(user.getUserEmail(),code);
+//                userDao.registerUser(user.getUserId(),null,null,user.getUserEmail(),code,new Date());
+//            });
+            Executor executor =Executors.newCachedThreadPool();
+            try{
+                executor.execute(()->{
+                    sendEmail(user.getUserEmail(),code);
+                    userDao.registerUser(user.getUserId(),null,null,user.getUserEmail(),code,new Date());
+                });
+            }catch (Exception e){
+                e.printStackTrace();
+            }
 //            MyThread myThread = new MyThread(user.getUserId(), user.getUserEmail(), code, hostemail, hostpwd);
 //            Executors.newCachedThreadPool().execute(myThread);
 //            userDao.registerUser(user.getUserId(), null, null, user.getUserEmail(), code, new Date());

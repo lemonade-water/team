@@ -18,24 +18,17 @@ import java.util.UUID;
 /**
  * 文件上传
  */
+@CrossOrigin
 @RestController
 public class PersonVideoController {
     @Autowired
     private PersonVideoService personVideoService;
 
-    /*@Value("${video-path}")
-    private String videoPath;
-
-    @Value("${video-path-yhsc}")
-    private String videoPathYhsc;
-
-    @GetMapping(value = "file")
-    public String file() {
-        return "file";
-    }*/
 
     @RequestMapping(value = "/api/userUpload" ,method = RequestMethod.POST)
-    public PersonVideo userUpload(MultipartFile file){
+    public boolean userUpload(@RequestParam("dec")String dec,@RequestParam("aa")String aa, MultipartFile file){
+        System.out.println(dec);
+        System.out.println(aa);
         return personVideoService.userUpload(file);
     }
 
