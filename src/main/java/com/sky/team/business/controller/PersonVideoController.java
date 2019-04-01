@@ -1,30 +1,29 @@
-package com.sky.team.business.service.imp;
+package com.sky.team.business.controller;
 
-import com.sky.team.business.dao.PersonVideoDao;
 import com.sky.team.business.pojo.PersonVideo;
 import com.sky.team.business.service.PersonVideoService;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
-@Service
-public class PersonVideoServiceImp implements PersonVideoService {
+/**
+ * 文件上传
+ */
+@RestController
+public class PersonVideoController {
     @Autowired
-    private PersonVideoDao personVideoDao;
+    private PersonVideoService personVideoService;
 
-    @Value("${video-path}")
+    /*@Value("${video-path}")
     private String videoPath;
 
     @Value("${video-path-yhsc}")
@@ -33,10 +32,14 @@ public class PersonVideoServiceImp implements PersonVideoService {
     @GetMapping(value = "file")
     public String file() {
         return "file";
+    }*/
+
+    @RequestMapping(value = "/api/userUpload" ,method = RequestMethod.POST)
+    public PersonVideo userUpload(MultipartFile file){
+        return personVideoService.userUpload(file);
     }
 
-
-    @RequestMapping(value = "/userUpload", method = RequestMethod.POST)
+    /*@RequestMapping(value = "/userUpload",method=RequestMethod.POST)
     public String userUpload(MultipartFile file, HttpServletRequest request) {
 
 
@@ -49,21 +52,21 @@ public class PersonVideoServiceImp implements PersonVideoService {
         }
         String fileName = file.getOriginalFilename();  // 文件名
         String suffixName = fileName.substring(fileName.lastIndexOf("."));  // 后缀名
-        String filePath = videoPath + videoPathYhsc + "//" + format.format(new Date()) + "//"; // 上传后的路径
+        String filePath = videoPath + videoPathYhsc +"//"+format.format(new Date())+"//"; // 上传后的路径
         //获取当前登录用户ID
         String principal;
         //发生异常则给予默认员工ID：2430
-        try {
-            principal = (String) SecurityUtils.getSubject().getPrincipal();
-        } catch (Exception e) {
-            principal = "2430";
+        try{
+            principal= (String)SecurityUtils.getSubject().getPrincipal();
+        }catch (Exception e){
+            principal="2430";
         }
         //新文件名为登录ID+上传时间+文件后缀
-        fileName = principal + format.format(new Date()) + suffixName; // 新文件名
+        fileName = principal + format.format(new Date()) +  suffixName; // 新文件名
         //fileName = UUID.randomUUID() + format.format(new Date()) +  suffixName; // 新文件名
         File dest = new File(filePath + fileName);
         //上传路径中的文件夹不存在则创建文件夹
-        if (!dest.getParentFile().exists()) {
+        if (!dest.getParentFile().exists()){
             dest.getParentFile().mkdirs();
         }
         try {
@@ -72,12 +75,9 @@ public class PersonVideoServiceImp implements PersonVideoService {
             e.printStackTrace();
         }
         String filename = "/temp-rainy/" + fileName;
-        return "file";
-    }
-
-    @Override
-    public PersonVideo userUpload(MultipartFile file) {
-        return null;
-
-    }
+        return "上传成功！";
+    }*/
 }
+
+
+
