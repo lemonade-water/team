@@ -37,4 +37,7 @@
     <update id="updateLoginTime">
         update user set user.userlasttime=#{param2} where user.userid=#{param1};
     </update>
+    <update id="updatePassword">
+        update user set user.userpassword = #{userPassword} where user.userid = #{userId};
+    </update>
 </mapper>

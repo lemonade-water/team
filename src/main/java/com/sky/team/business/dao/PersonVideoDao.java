@@ -14,6 +14,9 @@ public interface PersonVideoDao {
 
     /*视频热度变化*/
     int UpdPersonVideo(PersonVideo personVideo);
+    /*插入用户上传视频信息*/
+    int userUpload(PersonVideo personVideo);
+
 
     List<PersonVideo> getPersonVideoList(Integer num);
 }

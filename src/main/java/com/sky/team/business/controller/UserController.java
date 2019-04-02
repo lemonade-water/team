@@ -126,9 +126,7 @@ public class UserController {
         if(useremail.contains("@")&&userid!=null){
             userService.getEmail(userid,null,null,useremail);
            return true;
-
         } return false;
-
     }
 
 

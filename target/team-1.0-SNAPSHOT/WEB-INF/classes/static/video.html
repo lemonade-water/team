@@ -27,18 +27,18 @@
     <div class="panel-body">
         <div class="panel-heading" align="center"><h1 class="sub-header h3">文件上传</h1></div>
         <hr>
-        <form class="form-horizontal" id="upload" method="POST" action="/fileUpload" enctype="multipart/form-data">
+        <form class="form-horizontal" id="upload" method="POST" action="/userUpload" enctype="multipart/form-data">
             <div class="form-group" align="center">
                 <div class="col-md-4 col-sm-4  col-xs-4 col-lg-4">文件上传
                     <input type="file" class="form-control" name="file" id="file"><br>
                     上传至：
-                    <select  id="chapter" onchange="show(this.value)">
+                    <select  id="chapter" name="chapter" value="" onchange="show(this.value)">
                         <option value="">-请选择-</option>
                         <option value="前端/后端">前端/后端</option>
                         <option value="移动开发/游戏">移动开发/游戏</option>
                         <option value="其他">其他</option>
                     </select>
-                    <select id="subsection">
+                    <select id="subsection" name="subsection" value="">
                         <option value="">-请选择-</option>
                     </select>
                     <input type="submit" value="上传">
