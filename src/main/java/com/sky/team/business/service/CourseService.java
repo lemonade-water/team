@@ -15,7 +15,7 @@ public interface CourseService {
     /*查询所有课程*/
     List<Course> getCourse();
     /*添加课程*/
-    public Course addCourse(Course course);
+    public Course addCourse(Course course,String userid);
     /*根据课程号删除*/
     public int delCourse(String cId);
     /*修改课程*/

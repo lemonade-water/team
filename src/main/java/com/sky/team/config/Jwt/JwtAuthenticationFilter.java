@@ -18,6 +18,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
+            if(request.getServletPath().equals("/api/login")||request.getServletPath().equals("/api/getEmail")||request.getServletPath().equals("/api/isUserId")||request.getServletPath().equals("/api/register")){
+                filterChain.doFilter(request, response);
+            }
             if(isProtectedUrl(request)) {
                 String token = request.getHeader("Authorization");
                 //检查jwt令牌, 如果令牌不合法或者过期, 里面会直接抛出异常, 下面的catch部分会直接返回
@@ -31,6 +34,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
     private boolean isProtectedUrl(HttpServletRequest request) {
+
         return pathMatcher.match(protectUrlPattern, request.getServletPath());
     }
 }

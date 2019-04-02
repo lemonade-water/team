@@ -67,7 +67,7 @@ public class TestService {
         course.setcTecSmallType(8);
         course.setcAuthor("课程作者");
         course.setcIntro("课程简介");
-        courseService.addCourse(course);
+        courseService.addCourse(course,"1");
 
     }
     

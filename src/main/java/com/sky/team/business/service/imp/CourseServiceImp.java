@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sky.team.business.dao.CourseDao;
 import com.sky.team.business.dao.CourseTypeDao;
+import com.sky.team.business.dao.UserDao;
 import com.sky.team.business.pojo.ChapterCourse;
 import com.sky.team.business.pojo.Course;
 import com.sky.team.business.pojo.CourseType;
@@ -50,6 +51,9 @@ public class CourseServiceImp implements CourseService {
     /*阿星*/
     @Value("${IntelligenceIP}")
     private String IntelligenceIP;
+
+    @Autowired
+    private UserDao userDao;
     @Override
     @Transactional
     public HashMap<CourseType, List<CourseType>> getCourseType() {
@@ -82,20 +86,14 @@ public class CourseServiceImp implements CourseService {
     /*管理员*/
     @Override
     @Transactional
-    public Course addCourse(Course course) {
+    public Course addCourse(Course course,String userid) {
         /*
         * 生成视频目录  通过时间
         * 创建文件夹
         * */
-        String principal;
-        try{
-            principal= (String)SecurityUtils.getSubject().getPrincipal();
-        }catch (Exception e){
-          principal="2430";
-        }
         Date date =new Date();
         String s = String.valueOf(date.getTime());
-        String path = principal+ File.separator+s;
+        String path = userid+ File.separator+s;
 
         course.setcId(s);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD HH-mm-ss");
@@ -103,9 +101,8 @@ public class CourseServiceImp implements CourseService {
         course.setcUploadTime(date);
         /*session*/
         try{
-            Session session = SecurityUtils.getSubject().getSession(false);
-            User user = (User)session.getAttribute("user");
-            course.setcUploader(user.getUserName());
+            course.setcUploader(userid);
+            User user = userDao.getUser(userid);
             if(user.getRole().getRoleId().equals("1")||user.getRole().getRoleName().equals("管理员")){
                 course.setcType("1");
             }else {

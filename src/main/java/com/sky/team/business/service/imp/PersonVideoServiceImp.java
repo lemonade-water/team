@@ -47,18 +47,9 @@ public class PersonVideoServiceImp implements PersonVideoService {
                 System.out.println("文件为空");
             }
 
-            String principal;
-            try {
-                principal = (String) SecurityUtils.getSubject().getPrincipal();
-                if(principal==null){
-                    principal = "2430";
-                }
-            } catch (Exception e) {
-                principal = "2430";
-            }
             String fileName = file.getOriginalFilename();  // 文件名
             String suffixName = fileName.substring(fileName.lastIndexOf("."));  // 后缀名
-            String filePath = videoPath + videoPathYhsc + principal+"/" + format.format(new Date()); // 上传后的路径
+            String filePath = videoPath + videoPathYhsc + userid+"/" + format.format(new Date()); // 上传后的路径
 
 
             BigDecimal size = new BigDecimal(file.getSize());
@@ -67,15 +58,12 @@ public class PersonVideoServiceImp implements PersonVideoService {
             float videoSize = size.divide(mod).divide(mod).setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
 
             /*设置数据库同步插入的值*/
-            String url = videoPathYhsc + principal+"/" + format.format(new Date());
-            Session session = SecurityUtils.getSubject().getSession(false);
-            User user = (User)session.getAttribute("user");
+            String url = videoPathYhsc + userid+"/" + format.format(new Date());
 
-            personVideo.setPersonVideoUploadernName(user.getUserName());
+            personVideo.setPersonVideoUploader(userid);
             personVideo.setPersonVideoName(fileName);
-            personVideo.setPersonVideoUploader(principal);
             personVideo.setPersonVideoUrl(url);
-
+            personVideo.setPersonVideoSize(videoSize);
             personVideo.setPersonStatus(0);
             personVideo.setPersonVideoPop(0);
 
@@ -86,9 +74,9 @@ public class PersonVideoServiceImp implements PersonVideoService {
             }
 
             //新文件名为登录ID+上传时间+文件后缀
-            fileName = principal + format.format(new Date()) + suffixName; // 新文件名
-            File dest = new File(filePath + fileName);
-
+            fileName = userid + format.format(new Date()) + suffixName; // 新文件名
+            File dest = new File(filePath + "/"+fileName);
+            file.transferTo(dest);
         }catch (Exception e){
             return false;
         }

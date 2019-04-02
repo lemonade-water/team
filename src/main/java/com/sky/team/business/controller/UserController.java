@@ -213,9 +213,14 @@ public class UserController {
 
     /*修改密码的时候邮箱*/
     @RequestMapping("/api/updateGetEmail")
-    public ResultMessage getEmail(@RequestBody User user){
+    public ResultMessage updateGetEmail(@RequestBody User user,HttpServletRequest request){
         try{
-            String principal = (String)SecurityUtils.getSubject().getPrincipal();
+            String token = request.getHeader("Authorization");
+            Map<String, Object> body = Jwts.parser()
+                    .setSigningKey("ThisIsASecret")
+                    .parseClaimsJws(token.replace("Bearer ",""))
+                    .getBody();
+            String principal = (String)body.get("username");
 
             if(principal==null){
                 user.setUserId(user.getUserId());

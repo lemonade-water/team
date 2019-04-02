@@ -6,10 +6,15 @@ import com.sky.team.business.pojo.Course;
 import com.sky.team.business.pojo.CourseType;
 import com.sky.team.business.service.CourseService;
 import com.sky.team.business.util.PageHelper;
+import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 @CrossOrigin
 @RestController
 public class CourseController {
@@ -32,8 +37,15 @@ public class CourseController {
 
     /*插入新的课程*/
     @RequestMapping(value = "/api/addCourse" ,method = RequestMethod.POST)
-    public Course addCourse(Course course){
-        return courseService.addCourse(course);
+    public Course addCourse(Course course, HttpServletRequest request){
+        String token = request.getHeader("Authorization");
+        //检查jwt令牌, 如果令牌不合法或者过期, 里面会直接抛出异常, 下面的catch部分会直接返回
+        Map<String, Object> body = Jwts.parser()
+                .setSigningKey("ThisIsASecret")
+                .parseClaimsJws(token.replace("Bearer ",""))
+                .getBody();
+        String userid = (String)body.get("username");
+        return courseService.addCourse(course,userid);
     }
 
     /*根据id删除课程*/

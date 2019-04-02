@@ -52,44 +52,6 @@ public class PersonVideoController {
         return personVideoService.UpdPersonVideo(personVideo);
     }
 
-    /*@RequestMapping(value = "/userUpload",method=RequestMethod.POST)
-    public String userUpload(MultipartFile file, HttpServletRequest request) {
-
-
-        Format format = new SimpleDateFormat("yyyyMMddHHmmss");
-        //String chapter = request.getParameter("chapter");
-        //String subsection = request.getParameter("subsection");
-        //System.out.println(chapter+","+subsection);
-        if (file.isEmpty()) {
-            System.out.println("文件为空");
-        }
-        String fileName = file.getOriginalFilename();  // 文件名
-        String suffixName = fileName.substring(fileName.lastIndexOf("."));  // 后缀名
-        String filePath = videoPath + videoPathYhsc +"//"+format.format(new Date())+"//"; // 上传后的路径
-        //获取当前登录用户ID
-        String principal;
-        //发生异常则给予默认员工ID：2430
-        try{
-            principal= (String)SecurityUtils.getSubject().getPrincipal();
-        }catch (Exception e){
-            principal="2430";
-        }
-        //新文件名为登录ID+上传时间+文件后缀
-        fileName = principal + format.format(new Date()) +  suffixName; // 新文件名
-        //fileName = UUID.randomUUID() + format.format(new Date()) +  suffixName; // 新文件名
-        File dest = new File(filePath + fileName);
-        //上传路径中的文件夹不存在则创建文件夹
-        if (!dest.getParentFile().exists()){
-            dest.getParentFile().mkdirs();
-        }
-        try {
-            file.transferTo(dest);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        String filename = "/temp-rainy/" + fileName;
-        return "上传成功！";
-    }*/
 
     /*查询所有微课程*/
     @RequestMapping("/api/getPersonVideo")
