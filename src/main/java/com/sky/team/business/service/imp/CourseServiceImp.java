@@ -180,7 +180,7 @@ public class CourseServiceImp implements CourseService {
     @Override
     public List<Course> getSketchClose(String cid) {
         try{
-            String url = IntelligenceIP+"/sketch/close?pid="+cid+"&num="+sketchNum;
+            String url = IntelligenceIP+"/sketch/close/?pid="+cid+"&num="+sketchNum;
             String s = restTemplate.getForObject(url, String.class);
             JSONObject jsonObject = JSONObject.parseObject(s);
             JSONArray flag = jsonObject.getJSONArray("flag");

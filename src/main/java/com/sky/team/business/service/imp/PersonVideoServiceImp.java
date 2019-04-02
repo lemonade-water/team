@@ -1,6 +1,7 @@
 package com.sky.team.business.service.imp;
 
 import com.sky.team.business.dao.PersonVideoDao;
+import com.sky.team.business.pojo.PersonVideo;
 import com.sky.team.business.service.PersonVideoService;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class PersonVideoServiceImp implements PersonVideoService {
@@ -34,7 +36,6 @@ public class PersonVideoServiceImp implements PersonVideoService {
 
     @Override
     public boolean userUpload(MultipartFile file) {
-
         try {
             Format format = new SimpleDateFormat("yyyyMMddHHmmss");
             //String chapter = request.getParameter("chapter");
@@ -55,8 +56,11 @@ public class PersonVideoServiceImp implements PersonVideoService {
             String fileName = file.getOriginalFilename();  // 文件名
             String suffixName = fileName.substring(fileName.lastIndexOf("."));  // 后缀名
             String filePath = videoPath + videoPathYhsc + principal+"/" + format.format(new Date()); // 上传后的路径
-            //获取当前登录用户ID
-            System.out.println(filePath);
+            File file1 = new File(filePath);
+            if(!file1.exists()){
+                file1.mkdirs();
+            }
+
             //发生异常则给予默认员工ID：2430
 
             //新文件名为登录ID+上传时间+文件后缀
@@ -77,6 +81,11 @@ public class PersonVideoServiceImp implements PersonVideoService {
             return false;
         }
 
+    }
+
+    @Override
+    public List<PersonVideo> getPersonVideoList(Integer num) {
+        return personVideoDao.getPersonVideoList(num);
     }
 
 }

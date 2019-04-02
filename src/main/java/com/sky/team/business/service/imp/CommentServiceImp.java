@@ -1,5 +1,6 @@
 package com.sky.team.business.service.imp;
 
+import com.alibaba.fastjson.JSONObject;
 import com.sky.team.business.dao.CommentDao;
 import com.sky.team.business.pojo.Comment;
 import com.sky.team.business.pojo.ResultMessage;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -25,8 +27,13 @@ public class CommentServiceImp implements CommentService {
     @Override
     public ResultMessage comment(Comment comment) {
         try{
-            String url = IntelligenceIP+"/sketch/sensitive?txt="+comment.getCommentText();
-            restTemplate.getForObject(url, String.class);
+            comment.setCommentId(String.valueOf(new Date().getTime()));
+            String url = IntelligenceIP+"/sketch/sensitive/?txt="+comment.getCommentText();
+            String forObject = restTemplate.getForObject(url, String.class);
+            JSONObject jsonObject = JSONObject.parseObject(forObject);
+            String outtxt = jsonObject.getString("outtxt");
+            System.out.println(outtxt);
+            comment.setCommentText(outtxt);
             commentDao.insertComment(comment);
             return ResultMessage.setResultMessage("200","评论成功");
         }catch (Exception e){

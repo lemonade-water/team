@@ -14,5 +14,7 @@ public interface UserService {
     void updateLoginTime(String userid,Date date);
     void getEmail(String userid,String usernmae, String userpassword, String useremail);
 
-    void updateGetEmail(User user);
+    ResultMessage updateGetEmail(User user);
+
+    ResultMessage updateUser(User user);
 }

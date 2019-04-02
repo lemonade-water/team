@@ -15,7 +15,16 @@ public class User implements Serializable {
     private Integer userIntegrate;
     private String delflag;
     private String userDepartment;
+    private Date userLearnTime;
     private Role role;
+
+    public Date getUserLearnTime() {
+        return userLearnTime;
+    }
+
+    public void setUserLearnTime(Date userLearnTime) {
+        this.userLearnTime = userLearnTime;
+    }
 
     public String getUserId() {
         return userId;

@@ -21,4 +21,6 @@ public interface UserDao {
     void updateLoginTime(String userid, Date date);
 
     void updatePassword(User user);
+
+    boolean updateUser(User user);
 }

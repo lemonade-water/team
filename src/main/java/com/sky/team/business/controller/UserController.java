@@ -199,10 +199,11 @@ public class UserController {
                 user.setUserPassword(obj.toString());
                 /*根据用户*/
                 userDao.updatePassword(user);
+                return ResultMessage.setResultMessage("200","修改成功");
             }
-
+            return ResultMessage.setResultMessage("400","修改失败");
         }
-        return null;
+
     }
 
     /*修改密码的时候邮箱*/
@@ -223,9 +224,14 @@ public class UserController {
         if(user.getUserEmail()==null){
             return ResultMessage.setResultMessage("404","邮箱不能为空");
         }else{
-            userService.updateGetEmail(user);
-            return ResultMessage.setResultMessage("200","成功");
+            return userService.updateGetEmail(user);
         }
+    }
+
+    /*修改user*/
+    @RequestMapping("/api/updateUser")
+    public ResultMessage updateUser(@RequestBody User user){
+        return userService.updateUser(user);
     }
 
 }

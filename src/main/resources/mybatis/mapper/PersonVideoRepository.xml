@@ -4,7 +4,25 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sky.team.business.dao.PersonVideoDao">
 
+
+    <resultMap id="selectperson" type="com.sky.team.business.pojo.PersonVideo">
+        <id property="personVideoId" column="person_video_id"></id>
+        <result property="personVideoName" column="person_video_name"></result>
+        <result property="personVideoTag" column="person_video_tag"></result>
+        <result property="personVideoUploader" column="person_video_uploader"></result>
+        <result property="personVideoTime" column="person_video_time"></result>
+        <result property="personVideoUploadernName" column="person_video_uploadername"></result>
+        <result property="personVideoIntro" column="person_video_intro"></result>
+        <result property="personVideoSize" column="person_video_size"></result>
+        <result property="personStatus" column="person_status"></result>
+        <result property="personVideoPop" column="person_video_pop"></result>
+        <result property="personVideoUrl" column="person_video_url"></result>
+    </resultMap>
     <update id="corrction">
         update personvideo set person_status=#{param2} where person_video_id=#{param1};
     </update>
+
+    <select id="getPersonVideoList" resultMap="selectperson">
+        select * from personvideo where person_status='1' limit #{param1}*8,8 order by person_video_time ;
+    </select>
 </mapper>

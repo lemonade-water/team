@@ -115,7 +115,7 @@ public class UserServiceImp implements UserService {
 
     /*修改密码的时候的发送邮箱*/
     @Override
-    public void updateGetEmail(User user) {
+    public ResultMessage updateGetEmail(User user) {
         /*
         * 验证这个人的邮箱是否正确
         * */
@@ -144,9 +144,20 @@ public class UserServiceImp implements UserService {
             }catch (Exception e){
                 e.printStackTrace();
             }
-
+            return ResultMessage.setResultMessage("200","发送成功");
+        }else{
+            return  ResultMessage.setResultMessage("400","与注册邮箱不匹配");
         }
 
+    }
+
+    @Override
+    public ResultMessage updateUser(User user) {
+
+        if(userDao.updateUser(user)){
+            return ResultMessage.setResultMessage("200","修改成功");
+        }
+        return ResultMessage.setResultMessage("400","修改失败");
     }
 
     /*发邮箱方法*/
@@ -170,4 +181,5 @@ public class UserServiceImp implements UserService {
         Date date1 = new Date();
         System.out.println((date1.getTime()-date.getTime()));
     }
+
 }

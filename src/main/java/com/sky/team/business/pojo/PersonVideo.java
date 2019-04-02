@@ -26,6 +26,17 @@ public class PersonVideo implements Serializable {
     /*路径*/
     public String personVideoUrl;
 
+    /*热度*/
+    public Integer personVideoPop;
+
+    public Integer getPersonVideoPop() {
+        return personVideoPop;
+    }
+
+    public void setPersonVideoPop(Integer personVideoPop) {
+        this.personVideoPop = personVideoPop;
+    }
+
     public String getPersonVideoUrl() {
         return personVideoUrl;
     }

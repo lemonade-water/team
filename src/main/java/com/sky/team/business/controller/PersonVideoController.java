@@ -13,6 +13,7 @@ import java.io.*;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -26,7 +27,7 @@ public class PersonVideoController {
 
 
     @RequestMapping(value = "/api/userUpload" ,method = RequestMethod.POST)
-    public boolean userUpload(@RequestParam("dec")String dec,@RequestParam("aa")String aa, MultipartFile file){
+    public boolean userUpload(@RequestParam("tag")String dec,@RequestParam("describe")String aa, MultipartFile file){
         System.out.println(dec);
         System.out.println(aa);
         return personVideoService.userUpload(file);
@@ -70,6 +71,12 @@ public class PersonVideoController {
         String filename = "/temp-rainy/" + fileName;
         return "上传成功！";
     }*/
+
+    /*查询所有微课程*/
+    @RequestMapping("/api/getPersonVideo")
+    public List<PersonVideo> getPersonVideo(@RequestParam("num")Integer num){
+        return personVideoService.getPersonVideoList(num);
+    }
 }
 
 
