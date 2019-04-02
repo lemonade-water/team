@@ -19,12 +19,11 @@ public class PersonVideo implements Serializable {
     /*视频介绍*/
     private String personVideoIntro;
     /*视频大小*/
-    private Date personVideoSize;
+    private float personVideoSize;
     /*视频状态*/
     private Integer personStatus;
-
     /*路径*/
-    public String personVideoUrl;
+    private String personVideoUrl;
 
     /*热度*/
     public Integer personVideoPop;
@@ -101,11 +100,11 @@ public class PersonVideo implements Serializable {
         this.personVideoIntro = personVideoIntro;
     }
 
-    public Date getPersonVideoSize() {
+    public float getPersonVideoSize() {
         return personVideoSize;
     }
 
-    public void setPersonVideoSize(Date personVideoSize) {
+    public void setPersonVideoSize(float personVideoSize) {
         this.personVideoSize = personVideoSize;
     }
 

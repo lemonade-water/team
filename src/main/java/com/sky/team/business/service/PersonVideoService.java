@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface PersonVideoService {
 
-    /*添加课程*/
-    boolean userUpload(MultipartFile file);
+    /*用户上传*/
+    boolean userUpload(MultipartFile file,PersonVideo personVideo);
 
     List<PersonVideo> getPersonVideoList(Integer num);
 }

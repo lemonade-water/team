@@ -30,7 +30,8 @@ public class PersonVideoController {
     public boolean userUpload(@RequestParam("tag")String dec,@RequestParam("describe")String aa, MultipartFile file){
         System.out.println(dec);
         System.out.println(aa);
-        return personVideoService.userUpload(file);
+        PersonVideo personVideo = new PersonVideo();
+        return personVideoService.userUpload(file,personVideo);
     }
 
     /*@RequestMapping(value = "/userUpload",method=RequestMethod.POST)

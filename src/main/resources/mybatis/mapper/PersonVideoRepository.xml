@@ -22,7 +22,8 @@
         update personvideo set person_status=#{param2} where person_video_id=#{param1};
     </update>
 
-    <select id="getPersonVideoList" resultMap="selectperson">
-        select * from personvideo where person_status='1' limit #{param1}*8,8 order by person_video_time ;
-    </select>
+    <insert id="userUpdate" parameterType="com.sky.team.business.pojo.PersonVideo">
+        insert into personvideo (person_video_name,person_video_uploader,person_video_uploadername,person_video_size,person_status,person_video_url)
+        values (#{personVideoName},#{personVideoUploader},#{personVideoUploadernName},#{personVideoSize},#{personStatus},#{personVideoUrl});
+    </insert>
 </mapper>
