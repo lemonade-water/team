@@ -23,6 +23,17 @@ public class PersonVideo implements Serializable {
     /*视频状态*/
     private Integer personStatus;
 
+    /*路径*/
+    public String personVideoUrl;
+
+    public String getPersonVideoUrl() {
+        return personVideoUrl;
+    }
+
+    public void setPersonVideoUrl(String personVideoUrl) {
+        this.personVideoUrl = personVideoUrl;
+    }
+
     public String getPersonVideoId() {
         return personVideoId;
     }

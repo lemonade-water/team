@@ -133,18 +133,17 @@ public class UserServiceImp implements UserService {
 //                sendEmail(user.getUserEmail(),code);
 //                userDao.registerUser(user.getUserId(),null,null,user.getUserEmail(),code,new Date());
 //            });
+            String userid= user.getUserId();
+            String userEmail = user.getUserEmail();
             Executor executor =Executors.newCachedThreadPool();
             try{
                 executor.execute(()->{
-                    sendEmail(user.getUserEmail(),code);
-                    userDao.registerUser(user.getUserId(),null,null,user.getUserEmail(),code,new Date());
+                    sendEmail(userEmail,code);
+                    userDao.registerUser(userid,null,null,userEmail,code,new Date());
                 });
             }catch (Exception e){
                 e.printStackTrace();
             }
-//            MyThread myThread = new MyThread(user.getUserId(), user.getUserEmail(), code, hostemail, hostpwd);
-//            Executors.newCachedThreadPool().execute(myThread);
-//            userDao.registerUser(user.getUserId(), null, null, user.getUserEmail(), code, new Date());
 
         }
 

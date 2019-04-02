@@ -28,6 +28,8 @@ public class TestService {
     private RestTemplate restTemplate;
     @Value("${IntelligenceIP}")
     private String IntelligenceIP;
+    @Autowired
+    private  UserService userService;
     @Test
     public void getCourseType(){
         HashMap<CourseType, List<CourseType>> courseType = courseService.getCourseType();
@@ -74,4 +76,13 @@ public class TestService {
         System.out.println(new String(outtxt.getBytes(),"UTF-8"));
     }
 
+    @Test
+    public void testGetEmail(){
+        String userid="111";
+        String username = "111";
+        String userpassword = "111";
+        String userEmail = "1107229735@qq.com";
+
+        userService.getEmail(userid,username,userpassword,userEmail);
+    }
 }
