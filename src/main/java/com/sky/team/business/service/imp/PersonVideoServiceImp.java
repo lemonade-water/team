@@ -80,6 +80,8 @@ public class PersonVideoServiceImp implements PersonVideoService {
         }catch (Exception e){
             return false;
         }
+
+        personVideoDao.userUpload(personVideo);
         return true;
     }
 
@@ -91,7 +93,7 @@ public class PersonVideoServiceImp implements PersonVideoService {
 
     @Override
     public int UpdPersonVideo(PersonVideo personVideo){
-        return 0;
+        return personVideoDao.UpdPersonVideo(personVideo);
     }
 
 }
