@@ -1,12 +1,12 @@
 package com.sky.team.business.controller;
 
 
-import com.alibaba.fastjson.JSONObject;
 import com.sky.team.business.dao.UserDao;
 import com.sky.team.business.pojo.ResultMessage;
 import com.sky.team.business.pojo.User;
 import com.sky.team.business.service.UserService;
 import com.sky.team.business.util.JwtUtil;
+import io.jsonwebtoken.Jwts;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -16,10 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -59,7 +59,7 @@ public class UserController {
     *
     *
     * */
-    @RequestMapping(value = "/login",method = RequestMethod.POST)
+    @RequestMapping(value = "/api/login",method = RequestMethod.POST)
     @ResponseBody
     public Object login(@RequestBody User user, HttpServletRequest request){
 
@@ -92,6 +92,11 @@ public class UserController {
             String token = request.getHeader("Authorization");
             //检查jwt令牌, 如果令牌不合法或者过期, 里面会直接抛出异常, 下面的catch部分会直接返回
             JwtUtil.validateToken(token);
+            Map<String, Object> body = Jwts.parser()
+                    .setSigningKey("ThisIsASecret")
+                    .parseClaimsJws(token.replace("Bearer ",""))
+                    .getBody();
+            System.out.println("haha");
         }catch (Exception e){
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
             return;
@@ -102,7 +107,7 @@ public class UserController {
 
 
     /*获得邮箱的验证*/
-    @RequestMapping("/getEmail")
+    @RequestMapping("/api/getEmail")
     public Boolean getEmail(@RequestBody User user,
                             HttpServletRequest request){
         /*验证邮箱是否正确*/
@@ -114,7 +119,7 @@ public class UserController {
 
     }
 
-    @RequestMapping("/getEmail1")
+    @RequestMapping("/api/getEmail1")
     public Boolean getEmail1(@RequestParam("userid")String userid,@RequestParam("useremail")String useremail,
                             HttpServletRequest request){
         /*验证邮箱是否正确*/
@@ -128,7 +133,7 @@ public class UserController {
 
 
 
-    @RequestMapping(value = "/register",method = RequestMethod.POST)
+    @RequestMapping(value = "/api/register",method = RequestMethod.POST)
     @ResponseBody
     public Object register(@RequestBody User user,
                            HttpServletRequest request){
@@ -142,7 +147,7 @@ public class UserController {
 
     }
 
-    @RequestMapping(value = "/isUserId",method = RequestMethod.GET)
+    @RequestMapping(value = "/api/isUserId",method = RequestMethod.GET)
     @ResponseBody
     public Integer isUsername(@RequestParam(name = "userId")String username){
 

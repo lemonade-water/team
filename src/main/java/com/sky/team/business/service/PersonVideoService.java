@@ -8,7 +8,7 @@ import java.util.List;
 public interface PersonVideoService {
 
     /*用户上传*/
-    boolean userUpload(MultipartFile file,PersonVideo personVideo);
+    boolean userUpload(MultipartFile file,PersonVideo personVideo,String userid);
 
     /*视频热度变化*/
     int UpdPersonVideo(PersonVideo personVideo);

@@ -16,6 +16,6 @@ public class MyScheduler {
     @Scheduled(cron="0 0/10 * * * ?")
     public void deleteRegisterUser(){
         System.out.println("delete registerUser");
-        userDao.deleteRegisterUser(new Date(new Date().getTime()-60000));
+        userDao.deleteRegisterUser(new Date(new Date().getTime()-150000));
     }
 }

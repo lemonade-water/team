@@ -1,6 +1,7 @@
 package com.sky.team;
 
 
+import com.sky.team.config.Jwt.JwtAuthenticationFilter;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
