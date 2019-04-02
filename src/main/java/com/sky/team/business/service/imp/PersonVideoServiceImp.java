@@ -51,6 +51,7 @@ public class PersonVideoServiceImp implements PersonVideoService {
             if (file.isEmpty()) {
                 System.out.println("文件为空");
             }
+            //获取当前登录用户ID
             //发生异常则给予默认员工ID：2430
             String principal;
             try {
@@ -66,7 +67,7 @@ public class PersonVideoServiceImp implements PersonVideoService {
             String filePath = videoPath + videoPathYhsc + principal+"/" + format.format(new Date()); // 上传后的路径
 
             //计算文件时长大小
-            long length = 0l;
+            /*long length = 0l;
             Encoder encoder = new Encoder();
             // 创建一个临时文件
             File file1 = new File("");
@@ -78,10 +79,10 @@ public class PersonVideoServiceImp implements PersonVideoService {
 
                 length = encoder.getInfo(file1).getDuration();
             } catch (Exception e) {
-
+                System.out.println("获取时长失败!");
             }
             //打印一下文件时长
-            System.out.println(length/1000/60+"分"+length/1000%60+"秒");
+            System.out.println(length/1000/60+"分"+length/1000%60+"秒");*/
 
             //获取文件大小
             BigDecimal size = new BigDecimal(file.getSize());
@@ -97,52 +98,50 @@ public class PersonVideoServiceImp implements PersonVideoService {
             personVideo.setPersonVideoName(fileName);
             personVideo.setPersonVideoUploader(principal);
             personVideo.setPersonVideoUrl(url);
-            personVideo.setPersonVideoSize(videoSize);
+            //personVideo.setPersonVideoSize(videoSize);
             personVideo.setPersonStatus(0);
-            //获取当前登录用户ID
+            personVideo.setPersonVideoPop(0);
+
+            //上传路径中的文件夹不存在则创建文件夹
             System.out.println(filePath);
             File file2 = new File(filePath);
             if(!file2.exists()){
                 file2.mkdirs();
             }
 
-
-
             //新文件名为登录ID+上传时间+文件后缀
             fileName = principal + format.format(new Date()) + suffixName; // 新文件名
             //fileName = UUID.randomUUID() + format.format(new Date()) +  suffixName; // 新文件名
             File dest = new File(filePath + fileName);
 
-            //上传路径中的文件夹不存在则创建文件夹
-            if (!dest.getParentFile().exists()) {
-                dest.getParentFile().mkdirs();
-            }
-            try {
-                file.transferTo(dest);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
             //程序结束时，删除临时文件
-            deleteFile(file1);
-            return true;
+            /*deleteFile(file1);
+            return true;*/
 
         }catch (Exception e){
             return false;
         }
+        return true;
     }
 
     /*删除文件*/
-    private void deleteFile(File... files) {
+    /*private void deleteFile(File... files) {
         for (File file : files) {
             if (file.exists()) {
                 file.delete();
             }
         }
-    }
+    }*/
 
     @Override
     public List<PersonVideo> getPersonVideoList(Integer num) {
         return personVideoDao.getPersonVideoList(num);
+    }
+
+    @Override
+    public int UpdPersonVideo(PersonVideo personVideo){
+        return 0;
     }
 
 }

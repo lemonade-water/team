@@ -24,7 +24,6 @@ public class PersonVideo implements Serializable {
     private Integer personStatus;
     /*路径*/
     private String personVideoUrl;
-
     /*热度*/
     public Integer personVideoPop;
 

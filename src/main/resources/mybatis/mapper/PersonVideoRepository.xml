@@ -22,8 +22,12 @@
         update personvideo set person_status=#{param2} where person_video_id=#{param1};
     </update>
 
-    <insert id="userUpdate" parameterType="com.sky.team.business.pojo.PersonVideo">
-        insert into personvideo (person_video_name,person_video_uploader,person_video_uploadername,person_video_size,person_status,person_video_url)
-        values (#{personVideoName},#{personVideoUploader},#{personVideoUploadernName},#{personVideoSize},#{personStatus},#{personVideoUrl});
+    <insert id="userUpload" parameterType="com.sky.team.business.pojo.PersonVideo">
+        insert into personvideo (person_video_name,person_video_uploader,person_video_uploadername,person_video_size,person_status,person_video_url,person_video_pop)
+        values (#{personVideoName},#{personVideoUploader},#{personVideoUploadernName},#{personVideoSize},#{personStatus},#{personVideoUrl},#{personVideoPop});
     </insert>
+
+    <update id="updPersonVideo" parameterType="com.sky.team.business.pojo.PersonVideo">
+        update personvideo set person_video_pop = #{personVideoPop} where person_video_id = #{personVideoId};
+    </update>
 </mapper>

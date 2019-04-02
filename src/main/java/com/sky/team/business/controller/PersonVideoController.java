@@ -34,6 +34,12 @@ public class PersonVideoController {
         return personVideoService.userUpload(file,personVideo);
     }
 
+    /*点击视频，热度变化*/
+    @RequestMapping(value = "/api/updPersonVideo" ,method = RequestMethod.POST)
+    public int UpdCourse(@RequestBody PersonVideo personVideo){
+        return personVideoService.UpdPersonVideo(personVideo);
+    }
+
     /*@RequestMapping(value = "/userUpload",method=RequestMethod.POST)
     public String userUpload(MultipartFile file, HttpServletRequest request) {
 

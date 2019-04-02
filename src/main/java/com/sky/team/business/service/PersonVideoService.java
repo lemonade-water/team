@@ -10,5 +10,8 @@ public interface PersonVideoService {
     /*用户上传*/
     boolean userUpload(MultipartFile file,PersonVideo personVideo);
 
+    /*视频热度变化*/
+    int UpdPersonVideo(PersonVideo personVideo);
+
     List<PersonVideo> getPersonVideoList(Integer num);
 }
