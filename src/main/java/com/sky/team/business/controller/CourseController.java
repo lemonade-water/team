@@ -1,6 +1,7 @@
 package com.sky.team.business.controller;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.sky.team.business.pojo.ChapterCourse;
 import com.sky.team.business.pojo.Course;
 import com.sky.team.business.pojo.CourseType;
@@ -25,7 +26,8 @@ public class CourseController {
 
     /*得到所有课程分类*/
     @RequestMapping(value = "/api/getCourseType")
-    public HashMap<CourseType,List<CourseType>> getCourseType(){
+    public HashMap<String,List<CourseType>> getCourseType(){
+
         return courseService.getCourseType();
     }
 

@@ -43,4 +43,14 @@ public class CourseType implements Serializable {
     public void setParentType(Integer parentType) {
         this.parentType = parentType;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "cTecType:" + cTecType +
+                ", cTecTypeName:'" + cTecTypeName + '\'' +
+                ", grade:'" + grade + '\'' +
+                ", parentType:" + parentType +
+                '}';
+    }
 }

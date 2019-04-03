@@ -12,12 +12,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.multipart.MultipartFile;
+import sun.plugin.util.UIUtil;
+
 import java.io.File;
 import java.math.BigDecimal;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 
 @Service
@@ -39,7 +42,7 @@ public class PersonVideoServiceImp implements PersonVideoService {
 
     @Override
     @Transactional
-    public boolean userUpload(MultipartFile file,PersonVideo personVideo,String userid) {
+    public boolean userUpload(MultipartFile file,PersonVideo personVideo,String userid,String tag,String describe) {
 
         try {
             Format format = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -60,13 +63,16 @@ public class PersonVideoServiceImp implements PersonVideoService {
             /*设置数据库同步插入的值*/
             String url = videoPathYhsc + userid+"/" + format.format(new Date());
 
+            personVideo.setPersonVideoId(UUID.randomUUID().toString());
+            personVideo.setPersonVideoName(describe);
             personVideo.setPersonVideoUploader(userid);
             personVideo.setPersonVideoName(fileName);
             personVideo.setPersonVideoUrl(url);
             personVideo.setPersonVideoSize(videoSize);
             personVideo.setPersonStatus(0);
             personVideo.setPersonVideoPop(0);
-
+            personVideo.setPersonVideoTag(tag);
+            personVideo.setPersonVideoIntro(describe);
 
             File file2 = new File(filePath);
             if(!file2.exists()){
@@ -80,7 +86,7 @@ public class PersonVideoServiceImp implements PersonVideoService {
         }catch (Exception e){
             return false;
         }
-
+        personVideoDao.userUpload(personVideo);
         return true;
     }
 

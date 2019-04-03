@@ -1,5 +1,6 @@
 package com.sky.team.business.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.sky.team.business.pojo.ChapterCourse;
 import com.sky.team.business.pojo.Course;
 import com.sky.team.business.pojo.CourseType;
@@ -11,7 +12,7 @@ import java.util.List;
 public interface CourseService {
 
     /*查询所有课程分类以及小分类*/
-    HashMap<CourseType,List<CourseType>> getCourseType();
+    HashMap<String,List<CourseType>> getCourseType();
     /*查询所有课程*/
     List<Course> getCourse();
     /*添加课程*/

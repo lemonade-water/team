@@ -37,7 +37,7 @@ public class TestService {
     private CommentService commentService;
     @Test
     public void getCourseType(){
-        HashMap<CourseType, List<CourseType>> courseType = courseService.getCourseType();
+        HashMap<String, List<CourseType>> courseType = courseService.getCourseType();
         System.out.println(courseType);
     }
 

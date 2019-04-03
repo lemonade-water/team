@@ -40,7 +40,7 @@
         <result property="userEmailCode" column="useremailcode"></result>
     </resultMap>
     <select id="selectRegister" resultMap="registeruser">
-        select * from user_register where userid=#{param1} and useremail=#{param2} order by userlasttime limit 0,1;
+        select * from user_register where userid=#{param1} and useremail=#{param2} order by userlasttime DESC  limit 0,1;
     </select>
 
     <delete id="deleteRegisterUser">

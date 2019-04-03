@@ -47,7 +47,7 @@ public class TestController {
         /*设置参数*/
         user.setUserId("111");
         user.setUserPassword("111111");
-        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post("/login")
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post("/api/login")
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .content(mapper.writeValueAsString(user))
                 //使用writeValueAsString()方法来获取对象的JSON字符串表示

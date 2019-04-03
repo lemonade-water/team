@@ -56,12 +56,12 @@ public class CourseServiceImp implements CourseService {
     private UserDao userDao;
     @Override
     @Transactional
-    public HashMap<CourseType, List<CourseType>> getCourseType() {
+    public HashMap<String, List<CourseType>> getCourseType() {
         List<CourseType> list = courseTypeDao.getCourseType();
         if(list.size()==0){
             return null;
         }
-        HashMap<CourseType, List<CourseType>> hashMap = new HashMap<>();
+        HashMap<String, List<CourseType>> hashMap = new HashMap<>();
         for(CourseType courseType:list){
             if(courseType.getGrade().equals("1")){
                 List<CourseType> courseTypeList = new ArrayList<>();
@@ -70,7 +70,7 @@ public class CourseServiceImp implements CourseService {
                         courseTypeList.add(courseType1);
                     }
                 }
-                hashMap.put(courseType,courseTypeList);
+                hashMap.put(courseType.toString(),courseTypeList);
             }
         }
         return hashMap;

@@ -30,9 +30,7 @@ public class PersonVideoController {
 
 
     @RequestMapping(value = "/api/userUpload" ,method = RequestMethod.POST)
-    public boolean userUpload(@RequestParam("tag")String dec,@RequestParam("describe")String aa, MultipartFile file,HttpServletRequest request){
-        System.out.println(dec);
-        System.out.println(aa);
+    public boolean userUpload(@RequestParam("tag")String tag,@RequestParam("describe")String describe, MultipartFile file,HttpServletRequest request){
         PersonVideo personVideo = new PersonVideo();
         /*解析token*/
         String token = request.getHeader("Authorization");
@@ -43,7 +41,7 @@ public class PersonVideoController {
                 .getBody();
         String userid = (String)body.get("username");
         /*解析token*/
-        return personVideoService.userUpload(file,personVideo,userid);
+        return personVideoService.userUpload(file,personVideo,userid,tag,describe);
     }
 
     /*点击视频，热度变化*/
