@@ -21,7 +21,7 @@ public interface CourseService {
     /*修改课程*/
     public int UpdCourse(Course course);
 
-    PageHelper getAllCourse(PageHelper pageHelper);
+    PageHelper getAllCourse(PageHelper pageHelper,String userid);
 
     List<Course> getChapter(String cId);
 

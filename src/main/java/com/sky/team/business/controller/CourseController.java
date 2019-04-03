@@ -31,8 +31,15 @@ public class CourseController {
 
     /*查询所有的课程*/
     @RequestMapping("/api/getCourse")
-    public PageHelper getCourse(PageHelper pageHelper){
-        return courseService.getAllCourse(pageHelper);
+    public PageHelper getCourse(PageHelper pageHelper, HttpServletRequest request){
+        String token = request.getHeader("Authorization");
+        //检查jwt令牌, 如果令牌不合法或者过期, 里面会直接抛出异常, 下面的catch部分会直接返回
+        Map<String, Object> body = Jwts.parser()
+                .setSigningKey("ThisIsASecret")
+                .parseClaimsJws(token.replace("Bearer ",""))
+                .getBody();
+        String userid = (String)body.get("username");
+        return courseService.getAllCourse(pageHelper,userid);
     }
 
     /*插入新的课程*/

@@ -11,8 +11,6 @@ import com.sky.team.business.pojo.CourseType;
 import com.sky.team.business.pojo.User;
 import com.sky.team.business.service.CourseService;
 import com.sky.team.business.util.PageHelper;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -20,9 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 @Service
 public class CourseServiceImp implements CourseService {
@@ -142,7 +142,7 @@ public class CourseServiceImp implements CourseService {
 
     @Override
     @Transactional
-    public PageHelper getAllCourse(PageHelper pageHelper) {
+    public PageHelper getAllCourse(PageHelper pageHelper,String userid) {
         Integer count = courseDao.getCourseCount(pageHelper.getQuery(), pageHelper.getcTecBigType(), pageHelper.getcTecSmallType());
         /*先查询总数*/
         pageHelper.setTotalCount(count);
@@ -156,14 +156,8 @@ public class CourseServiceImp implements CourseService {
         if(pageHelper.getPageIndex()<0){
             pageHelper.setPageIndex(0);
         }
-        String  principal;
-        try{
-            principal= (String)SecurityUtils.getSubject().getPrincipal();
-        }catch (Exception e){
-            principal="2430";
-        }
 
-        List<Course> courses = courseDao.queryCourse(pageHelper.getQuery(), pageHelper.getcTecBigType(), pageHelper.getcTecSmallType(), pageHelper.getPageIndex(), pageHelper.getLimit(),principal);
+        List<Course> courses = courseDao.queryCourse(pageHelper.getQuery(), pageHelper.getcTecBigType(), pageHelper.getcTecSmallType(), pageHelper.getPageIndex(), pageHelper.getLimit(),userid);
 
         pageHelper.setList(courses);
         return pageHelper;

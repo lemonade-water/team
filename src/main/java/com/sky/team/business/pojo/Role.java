@@ -31,4 +31,5 @@ public class Role implements Serializable {
     public void setPermissionList(List<Permission> permissionList) {
         this.permissionList = permissionList;
     }
+
 }

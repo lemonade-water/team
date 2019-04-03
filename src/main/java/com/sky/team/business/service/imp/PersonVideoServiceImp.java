@@ -81,7 +81,6 @@ public class PersonVideoServiceImp implements PersonVideoService {
             return false;
         }
 
-        personVideoDao.userUpload(personVideo);
         return true;
     }
 
@@ -93,7 +92,7 @@ public class PersonVideoServiceImp implements PersonVideoService {
 
     @Override
     public int UpdPersonVideo(PersonVideo personVideo){
-        return personVideoDao.UpdPersonVideo(personVideo);
+        return 0;
     }
 
 }

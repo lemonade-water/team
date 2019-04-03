@@ -47,7 +47,7 @@ public class TestService {
         PageHelper pageHelper = new PageHelper();
         pageHelper.setPage(1);
         pageHelper.setQuery("");
-        PageHelper allCourse = courseService.getAllCourse(pageHelper);
+        PageHelper allCourse = courseService.getAllCourse(pageHelper,"2450");
         System.out.println(allCourse);
     }
 

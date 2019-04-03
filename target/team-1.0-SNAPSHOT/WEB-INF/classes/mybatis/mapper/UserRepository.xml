@@ -5,9 +5,25 @@
 
 <mapper namespace="com.sky.team.business.dao.UserDao">
     <!--返回类型-->
-
-    <select id="getUser" resultType="com.sky.team.business.pojo.User">
-        select * from User where userid=#{param1}
+    <resultMap id="seletctuser" type="com.sky.team.business.pojo.User">
+        <id property="userId" column="userid"></id>
+        <result property="userName" column="username"></result>
+        <result property="userPassword" column="userpassword"></result>
+        <result property="userEmail" column="useremail"></result>
+        <result property="userEmailCode" column="useremailcode"></result>
+        <result property="userLearnTime" column="userlearntime"></result>
+        <result property="userLastTime" column="userlasttime"></result>
+        <result property="userIntegrate" column="userintegrate"></result>
+        <result property="userDepartment" column="userdepartment"></result>
+        <result property="delflag" column="delflag"></result>
+        <collection property="role" ofType="com.sky.team.business.pojo.Role">
+            <id property="roleId" column="roleid"></id>
+            <result property="roleName" column="rolename"></result>
+        </collection>
+    </resultMap>
+    <select id="getUser" resultMap="seletctuser">
+        SELECT * from user
+	left join role on `user`.roleid = role.roleid where `user`.userid=#{param1}
     </select>
 
     <insert id="registerUser">
@@ -39,5 +55,8 @@
     </update>
     <update id="updatePassword">
         update user set user.userpassword = #{userPassword} where user.userid = #{userId};
+    </update>
+    <update id="updateUser">
+        update user(username,userdepartment) values (#{username},#{userdepartment}) where user.userid={userId}
     </update>
 </mapper>
