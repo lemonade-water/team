@@ -71,8 +71,10 @@ public class PersonVideoServiceImp implements PersonVideoService {
             User user = userDao.getUser(userid);
             if("1".equals(user.getRole().getRoleId())){
                 personVideo.setPersonStatus(1);
+            }else {
+                personVideo.setPersonStatus(0);
             }
-            personVideo.setPersonStatus(0);
+
             personVideo.setPersonVideoPop(0);
             personVideo.setPersonVideoTag(tag);
             personVideo.setPersonVideoIntro(describe);
