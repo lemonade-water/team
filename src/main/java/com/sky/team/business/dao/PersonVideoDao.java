@@ -19,4 +19,6 @@ public interface PersonVideoDao {
 
 
     List<PersonVideo> getPersonVideoList(Integer num);
+
+    boolean correction(String personvideoid, String type);
 }

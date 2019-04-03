@@ -2,18 +2,13 @@ package com.sky.team.business.service.imp;
 
 import com.sky.team.business.dao.PersonVideoDao;
 import com.sky.team.business.pojo.PersonVideo;
-import com.sky.team.business.pojo.User;
 import com.sky.team.business.service.PersonVideoService;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.multipart.MultipartFile;
-import sun.plugin.util.UIUtil;
-
 import java.io.File;
 import java.math.BigDecimal;
 import java.text.Format;
@@ -94,6 +89,14 @@ public class PersonVideoServiceImp implements PersonVideoService {
     @Override
     public List<PersonVideo> getPersonVideoList(Integer num) {
         return personVideoDao.getPersonVideoList(num);
+    }
+
+    /*审核视频*/
+    @Override
+    public boolean correction(String personvideoid, String type) {
+        /*1通过*/
+//        2不通过
+        return personVideoDao.correction(personvideoid,type);
     }
 
     @Override

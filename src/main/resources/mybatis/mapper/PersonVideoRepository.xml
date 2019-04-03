@@ -37,4 +37,7 @@
         </if>>
         where person_video_id = #{personVideoId};
     </update>
+    <update id="correction">
+        update personvideo set person_status = #{param2} where person_video_id=#{param1}
+    </update>
 </mapper>

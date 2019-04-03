@@ -14,4 +14,7 @@ public interface PersonVideoService {
     int UpdPersonVideo(PersonVideo personVideo);
 
     List<PersonVideo> getPersonVideoList(Integer num);
+
+    /*审核视频*/
+    boolean correction(String personvideoid,String type);
 }

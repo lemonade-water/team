@@ -62,10 +62,7 @@ public class UserController {
     @RequestMapping(value = "/api/login",method = RequestMethod.POST)
     @ResponseBody
     public Object login(@RequestBody User user, HttpServletRequest request){
-
-//        JSONObject jsonObject = JSONObject.parseObject(formStr);
-//        String userid = jsonObject.getString("userId");
-//        String userpassword = jsonObject.getString("userPassword");
+        System.out.println("............................................");
 
         /*验证密码是否正确*/
         UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(user.getUserId(), user.getUserPassword());
@@ -147,8 +144,9 @@ public class UserController {
 
     @RequestMapping(value = "/api/isUserId",method = RequestMethod.GET)
     @ResponseBody
-    public Integer isUsername(@RequestParam(name = "userId")String username){
+    public Integer isUsername(@RequestParam(name = "userId")String username,HttpServletRequest request){
 
+        System.out.println("4566466");
         /*验证username*/
         if(username==null||username.length() != username.getBytes().length){
             return 3;
