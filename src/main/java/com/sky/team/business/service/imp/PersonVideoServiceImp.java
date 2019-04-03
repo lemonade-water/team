@@ -1,7 +1,9 @@
 package com.sky.team.business.service.imp;
 
 import com.sky.team.business.dao.PersonVideoDao;
+import com.sky.team.business.dao.UserDao;
 import com.sky.team.business.pojo.PersonVideo;
+import com.sky.team.business.pojo.User;
 import com.sky.team.business.service.PersonVideoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +28,8 @@ public class PersonVideoServiceImp implements PersonVideoService {
     @Value("${video-path}")
     private String videoPath;
 
+    @Autowired
+    private UserDao userDao;
     @Value("${video-path-yhsc}")
     private String videoPathYhsc;
 
@@ -64,6 +68,10 @@ public class PersonVideoServiceImp implements PersonVideoService {
             personVideo.setPersonVideoName(fileName);
             personVideo.setPersonVideoUrl(url);
             personVideo.setPersonVideoSize(videoSize);
+            User user = userDao.getUser(userid);
+            if("1".equals(user.getRole().getRoleId())){
+                personVideo.setPersonStatus(1);
+            }
             personVideo.setPersonStatus(0);
             personVideo.setPersonVideoPop(0);
             personVideo.setPersonVideoTag(tag);
