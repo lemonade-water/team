@@ -17,6 +17,11 @@ public interface PersonVideoDao {
     /*插入用户上传视频信息*/
     int userUpload(PersonVideo personVideo);
 
+    /*管理员删除微视频*/
+    int delVideo(PersonVideo personVideo);
+
+    /*个人上传记录*/
+    int uploadRecord(PersonVideo personVideo);
 
     List<PersonVideo> getPersonVideoList(Integer num);
 

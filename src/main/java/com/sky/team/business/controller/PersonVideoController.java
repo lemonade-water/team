@@ -28,7 +28,6 @@ public class PersonVideoController {
     @Autowired
     private PersonVideoService personVideoService;
 
-
     @RequestMapping(value = "/api/userUpload" ,method = RequestMethod.POST)
     public boolean userUpload(@RequestParam("tag")String tag,@RequestParam("describe")String describe, MultipartFile file,HttpServletRequest request){
         PersonVideo personVideo = new PersonVideo();
@@ -40,6 +39,7 @@ public class PersonVideoController {
                 .parseClaimsJws(token.replace("Bearer ",""))
                 .getBody();
         String userid = (String)body.get("username");
+
         /*解析token*/
         return personVideoService.userUpload(file,personVideo,userid,tag,describe);
     }
@@ -55,6 +55,26 @@ public class PersonVideoController {
     @RequestMapping("/api/getPersonVideo")
     public List<PersonVideo> getPersonVideo(@RequestParam("num")Integer num){
         return personVideoService.getPersonVideoList(num);
+    }
+
+    /*管理员删除微视频*/
+    @RequestMapping("/api/delVideo")
+    public int delVideo(PersonVideo personVideo){
+        return personVideoService.delVideo(personVideo);
+    }
+
+    /*个人上传记录*/
+    @RequestMapping("/api/uploadRecord")
+    public int uploadRecord(PersonVideo personVideo,HttpServletRequest request){
+        /*解析token*/
+        String token = request.getHeader("Authorization");
+        //检查jwt令牌, 如果令牌不合法或者过期, 里面会直接抛出异常, 下面的catch部分会直接返回
+        Map<String, Object> body = Jwts.parser()
+                .setSigningKey("ThisIsASecret")
+                .parseClaimsJws(token.replace("Bearer ",""))
+                .getBody();
+        String userid = (String)body.get("username");
+        return personVideoService.uploadRecord(personVideo,userid);
     }
 }
 

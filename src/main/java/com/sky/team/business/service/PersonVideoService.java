@@ -17,4 +17,10 @@ public interface PersonVideoService {
 
     /*审核视频*/
     boolean correction(String personvideoid,String type);
+
+    /*管理员删除微视频*/
+    int delVideo(PersonVideo personVideo);
+
+    /*个人上传记录*/
+    int uploadRecord(PersonVideo personVideo,String userid);
 }

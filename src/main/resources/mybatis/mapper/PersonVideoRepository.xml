@@ -40,4 +40,10 @@
     <update id="correction">
         update personvideo set person_status = #{param2} where person_video_id=#{param1}
     </update>
+    <delete id="delVideo">
+        delete from personvideo where person_video_id = #{personVideoId};
+    </delete>
+    <select id="uploadRecord" resultMap="selectperson">
+        select * from personvideo where person_video_uploader = #{personVideoUploader};
+    </select>
 </mapper>

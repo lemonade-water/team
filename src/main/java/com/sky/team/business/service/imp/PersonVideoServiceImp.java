@@ -111,7 +111,18 @@ public class PersonVideoServiceImp implements PersonVideoService {
 
     @Override
     public int UpdPersonVideo(PersonVideo personVideo){
-        return 0;
+        return personVideoDao.UpdPersonVideo(personVideo);
+    }
+
+    @Override
+    public int delVideo(PersonVideo personVideo){
+        return personVideoDao.delVideo(personVideo);
+    }
+
+    @Override
+    public int uploadRecord(PersonVideo personVideo,String userid){
+        personVideo.setPersonVideoUploader(userid);
+        return personVideoDao.uploadRecord(personVideo);
     }
 
 }
