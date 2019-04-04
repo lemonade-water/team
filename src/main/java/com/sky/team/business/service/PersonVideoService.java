@@ -1,6 +1,7 @@
 package com.sky.team.business.service;
 
 import com.sky.team.business.pojo.PersonVideo;
+import com.sky.team.business.util.PageHelper;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -17,6 +18,8 @@ public interface PersonVideoService {
 
     /*审核视频*/
     boolean correction(String personvideoid,String type);
+
+    PageHelper adminGetPersonVideo(PageHelper pageHelper);
 
     /*管理员删除微视频*/
     int delVideo(PersonVideo personVideo);

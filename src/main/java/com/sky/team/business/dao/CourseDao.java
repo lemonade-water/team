@@ -2,6 +2,7 @@ package com.sky.team.business.dao;
 
 
 import com.alibaba.fastjson.JSONArray;
+import com.sky.team.business.pojo.ChapterCourse;
 import com.sky.team.business.pojo.Course;
 import org.springframework.stereotype.Repository;
 
@@ -35,4 +36,8 @@ public interface CourseDao {
     List<Course> getSketchClose(JSONArray list);
 
     List<Course> getSket(Integer limit);
+
+    Course getCourseById(String s);
+
+    void addChapter(ChapterCourse chapterCourse);
 }

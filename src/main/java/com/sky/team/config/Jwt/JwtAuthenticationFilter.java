@@ -5,7 +5,6 @@ import com.sky.team.business.util.JwtUtil;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -21,14 +20,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if(request.getServletPath().equals("/api/login")||request.getServletPath().equals("/api/getEmail")||request.getServletPath().equals("/api/isUserId")||request.getServletPath().equals("/api/register")){
                 filterChain.doFilter(request, response);
             }else{
-            if(isProtectedUrl(request)) {
-                String token = request.getHeader("Authorization");
-                //检查jwt令牌, 如果令牌不合法或者过期, 里面会直接抛出异常, 下面的catch部分会直接返回
-                JwtUtil.validateToken(token);
-                filterChain.doFilter(request, response);
-            }
+                if(isProtectedUrl(request)) {
+                    String token = request.getHeader("Authorization");
+                    //检查jwt令牌, 如果令牌不合法或者过期, 里面会直接抛出异常, 下面的catch部分会直接返回
+                    JwtUtil.validateToken(token);
+                    filterChain.doFilter(request, response);
+                }
             }
         } catch (Exception e) {
+            System.out.println("过滤器异常");
+            e.printStackTrace();
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
             return;
         }

@@ -5,6 +5,7 @@ import com.sky.team.business.dao.UserDao;
 import com.sky.team.business.pojo.PersonVideo;
 import com.sky.team.business.pojo.User;
 import com.sky.team.business.service.PersonVideoService;
+import com.sky.team.business.util.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,8 @@ public class PersonVideoServiceImp implements PersonVideoService {
     @Value("${video-path-yhsc}")
     private String videoPathYhsc;
 
+    @Value("${video-static-pattern}")
+    private String videoStaticPattern;
     @GetMapping(value = "file")
     public String file() {
         return "file";
@@ -66,8 +69,9 @@ public class PersonVideoServiceImp implements PersonVideoService {
             personVideo.setPersonVideoName(describe);
             personVideo.setPersonVideoUploader(userid);
             personVideo.setPersonVideoName(fileName);
-            personVideo.setPersonVideoUrl(url);
+
             personVideo.setPersonVideoSize(videoSize);
+            personVideo.setPersonVideoTime(new Date());
             User user = userDao.getUser(userid);
             if("1".equals(user.getRole().getRoleId())){
                 personVideo.setPersonStatus(1);
@@ -86,7 +90,8 @@ public class PersonVideoServiceImp implements PersonVideoService {
 
             //新文件名为登录ID+上传时间+文件后缀
             fileName = userid + format.format(new Date()) + suffixName; // 新文件名
-            File dest = new File(filePath + "/"+fileName);
+            personVideo.setPersonVideoUrl(videoStaticPattern+url+"/"+fileName);
+            File dest = new File(filePath +File.separator+fileName);
             file.transferTo(dest);
         }catch (Exception e){
             return false;
@@ -107,6 +112,28 @@ public class PersonVideoServiceImp implements PersonVideoService {
         /*1通过*/
 //        2不通过
         return personVideoDao.correction(personvideoid,type);
+    }
+
+    /*分页*/
+    @Override
+    @Transactional
+    public PageHelper adminGetPersonVideo(PageHelper pageHelper) {
+        /*查询所有的总数*/
+        Integer count = personVideoDao.getPersonVideoCount();
+        pageHelper.setTotalCount(count);
+        pageHelper.setLimit(15);
+        if(pageHelper.getPage()<=0){
+            pageHelper.setPage(1);
+        }
+        if(pageHelper.getPage()>pageHelper.getTotalCount()){
+            pageHelper.setPage(pageHelper.getTotalCount());
+        }
+        if(pageHelper.getPageIndex()<0){
+            pageHelper.setPageIndex(0);
+        }
+        List<PersonVideo> personVideos = personVideoDao.queryPersonList(pageHelper.getPageIndex(), pageHelper.getLimit());
+        pageHelper.setList(personVideos);
+        return pageHelper;
     }
 
     @Override

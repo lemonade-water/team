@@ -5,11 +5,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.sky.team.business.pojo.ChapterCourse;
 import com.sky.team.business.pojo.Course;
 import com.sky.team.business.pojo.CourseType;
+import com.sky.team.business.pojo.ResultMessage;
 import com.sky.team.business.service.CourseService;
 import com.sky.team.business.util.PageHelper;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -59,23 +61,23 @@ public class CourseController {
 
     /*根据id删除课程*/
     @RequestMapping(value = "/api/delCourse/{cId}" ,method = RequestMethod.GET)
-    public String delCourse(@PathVariable("cId") String cId){
+    public ResultMessage delCourse(@PathVariable("cId") String cId){
         int result = courseService.delCourse(cId);
         if(result>=1){
-            return "删除成功";
+            return ResultMessage.setResultMessage("200","删除成功");
         }else{
-            return "删除失败";
+            return ResultMessage.setResultMessage("400","删除失败");
         }
     }
 
     /*根据id修改课程*/
     @RequestMapping(value = "/api/updCourse" ,method = RequestMethod.POST)
-    public String UpdCourse(@RequestBody Course course){
+    public ResultMessage UpdCourse(@RequestBody Course course){
         int result = courseService.UpdCourse(course);
         if(result>=1){
-            return "修改成功";
+            return ResultMessage.setResultMessage("200","修改成功");
         }else{
-            return "修改失败";
+            return ResultMessage.setResultMessage("400","修改失败");
         }
     }
 
@@ -98,5 +100,12 @@ public class CourseController {
     @RequestMapping(value = "/api/addChapter")
     public boolean addChapter(ChapterCourse chapterCourse){
         return courseService.addChapter(chapterCourse);
+    }
+
+    /*管理员*/
+
+    @RequestMapping(value = "/api/uploaderCourse",method = RequestMethod.POST)
+    public ResultMessage uploaderCourse(MultipartFile file){
+        return null;
     }
 }

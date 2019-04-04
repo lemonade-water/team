@@ -26,4 +26,8 @@ public interface PersonVideoDao {
     List<PersonVideo> getPersonVideoList(Integer num);
 
     boolean correction(String personvideoid, String type);
+
+    Integer getPersonVideoCount();
+
+    List<PersonVideo> queryPersonList(int pageIndex, int limit);
 }

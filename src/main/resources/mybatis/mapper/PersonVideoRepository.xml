@@ -26,8 +26,8 @@
     </select>
 
     <insert id="userUpload" parameterType="com.sky.team.business.pojo.PersonVideo">
-        insert into personvideo (person_video_id,person_video_uploader,person_video_uploadername,person_video_size,person_status,person_video_url,person_video_pop,person_video_tag,person_video_intro)
-        values (#{personVideoId},#{personVideoUploader},#{personVideoUploadernName},#{personVideoSize},#{personStatus},#{personVideoUrl},#{personVideoPop},#{personVideoTag},#{personVideoIntro});
+        insert into personvideo (person_video_id,person_video_uploader,person_video_uploadername,person_video_size,person_status,person_video_url,person_video_pop,person_video_tag,person_video_intro,person_video_time)
+        values (#{personVideoId},#{personVideoUploader},#{personVideoUploadernName},#{personVideoSize},#{personStatus},#{personVideoUrl},#{personVideoPop},#{personVideoTag},#{personVideoIntro},#{personVideoTime});
     </insert>
 
     <update id="UpdPersonVideo" parameterType="com.sky.team.business.pojo.PersonVideo">
@@ -40,6 +40,31 @@
     <update id="correction">
         update personvideo set person_status = #{param2} where person_video_id=#{param1}
     </update>
+
+    <select id="getPersonVideoCount" resultType="java.lang.Integer">
+        select count(1) from personvideo;
+    </select>
+
+
+    <select id="queryPersonList" resultMap="selectperson">
+select person_video_id,
+person_video_name,
+person_video_tag,
+person_video_uploader,
+person_video_time,
+`user`.username as person_video_uploadername,
+person_video_intro,
+person_video_size,
+person_status,
+person_video_url,
+person_video_pop
+ from personvideo
+		LEFT JOIN `user` on `user`.userid = person_video_uploader
+where 1=1
+ORDER BY personvideo.person_video_time DESC limit #{param1},#{param2}
+
+    </select>
+
     <delete id="delVideo">
         delete from personvideo where person_video_id = #{personVideoId};
     </delete>

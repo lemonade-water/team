@@ -45,6 +45,10 @@ public class CourseServiceImp implements CourseService {
     @Value("${video-path-yhsc}")
     private String videoPathYhsc;
 
+
+    @Value("${video-path-geek}")
+    private String videoPathGeek;
+
     @Value("${video-static-pattern}")
     private String videoStaticPattern;
 
@@ -116,14 +120,14 @@ public class CourseServiceImp implements CourseService {
 
         /*建文件夹*/
         //path = principal+ File.separator+s
-        File file = new File(videoPath+videoPathYhsc+path);
+        File file = new File(videoPath+videoPathGeek+path);
 
         if(file.exists()){
             file.mkdirs();
         }else{
             file.mkdirs();
         }
-        course.setcPath(videoStaticPattern+videoPathYhsc+path);
+        course.setcPath(videoStaticPattern+videoPathGeek+path);
         courseDao.addCourse(course);
         return course;
     }
@@ -191,6 +195,25 @@ public class CourseServiceImp implements CourseService {
     public boolean addChapter(ChapterCourse chapterCourse) {
         /*添加课程章节*/
 
-        return false;
+        /*查询Course*/
+        Course course = courseDao.getCourseById(chapterCourse.getcId());
+        /*得到目录*/
+        String s = course.getcPath();
+        String substring = s.substring(s.indexOf(videoStaticPattern) + videoStaticPattern.length());
+        /*创建文件夹*/
+        String chaptername = String.valueOf(new Date().getTime());
+        String chapterPath = videoPath+videoPathGeek+substring+File.separator+chaptername;
+        File file = new File(chapterPath);
+        if(!file.exists()){
+            file.mkdirs();
+        }
+        /*插入数据*/
+        chapterCourse.setChPath(chapterPath);
+        chapterCourse.setChapterId(chaptername);
+        chapterCourse.setDelflag("0");
+
+        courseDao.addChapter(chapterCourse);
+        return true;
     }
+
 }

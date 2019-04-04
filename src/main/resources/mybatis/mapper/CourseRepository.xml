@@ -215,4 +215,18 @@
         select * from course limit 0,#{param1}
     </select>
 
+    <select id="getCourseById" resultMap="selectCourse">
+        select * from course where  course.c_id = #{param1}
+    </select>
+
+    <!--增加章节-->
+    <insert id="addChapter">
+        insert into chapter_course(chapter_id,
+c_id,
+ch_name,
+ch_subsection_accout,
+delflag,
+ch_path
+) values (#{chapterId},#{cId},#{chName},0,#{delflag},#{chPath});
+    </insert>
 </mapper>
