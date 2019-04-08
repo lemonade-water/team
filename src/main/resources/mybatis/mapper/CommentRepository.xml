@@ -17,7 +17,14 @@
         <result property="parentId" column="parentid"></result>
     </resultMap>
     <select id="getComment" resultMap="selectComment">
-        select * from comment order by comment.commentdate
+        select commentid,
+parentid,
+commenttext,
+commentuserid,
+user.username as commentusername,
+commentdate,
+c_id
+ from comment left join user on user.userid=comment.commentuserid where c_id = #{param1} order by comment.commentdate desc;
     </select>
 
     <delete id="delcomment">

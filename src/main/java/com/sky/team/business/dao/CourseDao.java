@@ -2,10 +2,10 @@ package com.sky.team.business.dao;
 
 
 import com.alibaba.fastjson.JSONArray;
-import com.sky.team.business.pojo.ChapterCourse;
-import com.sky.team.business.pojo.Course;
+import com.sky.team.business.pojo.*;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -40,4 +40,34 @@ public interface CourseDao {
     Course getCourseById(String s);
 
     void addChapter(ChapterCourse chapterCourse);
+
+    ChapterCourse findCourseById(String chapterId);
+
+    void addSubsection(Subsection subsection);
+
+    void collection(String cId, String userid);
+
+    List<Collection> selectCollection(String userid);
+
+   boolean delCollection(String cId, String username);
+
+   void addCollection(String cId);
+
+    void addVolume(String cId);
+
+   Collection courseCollection(String userid,String coursid);
+
+   /*查询前五的收藏数*/
+   List<Course> countCollection();
+
+   /*查询前五的播放量*/
+   List<Course> countVolume();
+
+
+    void addUCourse(String userid, String cId, String chapterId, String subsectionId, Date date);
+
+    UCourse selectUCourse(String userid, String cId, String chapterId, String subsectionId);
+
+    /*更新*/
+    void updateCourse(String userid, String cId, String chapterId, String subsectionId, Date date,Date updatetime);
 }

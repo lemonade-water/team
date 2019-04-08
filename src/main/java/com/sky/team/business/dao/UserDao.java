@@ -1,10 +1,12 @@
 package com.sky.team.business.dao;
 
 
+import com.sky.team.business.pojo.CountDepartment;
 import com.sky.team.business.pojo.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
+import java.util.List;
 
 @Repository
 public interface UserDao {
@@ -23,4 +25,13 @@ public interface UserDao {
     void updatePassword(User user);
 
     boolean updateUser(User user);
+
+    /*活跃度*/
+    List<User> countActivity();
+
+    /*每个部门人数*/
+    List<CountDepartment> countDepartment();
+
+    /*总人数*/
+    Integer countUser();
 }

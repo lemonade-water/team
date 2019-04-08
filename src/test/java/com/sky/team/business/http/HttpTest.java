@@ -28,14 +28,14 @@ public class HttpTest {
         MyBean myBean = new MyBean();
         myBean.setPid("2");
         myBean.setNum(2);
+        myBean.setOpt("0");
         JSON json = restTemplate.postForObject(url, myBean, JSON.class);
-
         System.out.println(json);
     }
 
     @Test
     public void gettuijian(){
-        String url = "http://192.168.43.163:5000/sketch/close?pid=2&num=6";
+        String url = "http://192.168.43.163:5000/sketch/close/?pid=84&num=6&opt=0";
         String s = restTemplate.getForObject(url, String.class);
         JSONObject jsonObject = JSONObject.parseObject(s);
         JSONArray flag = jsonObject.getJSONArray("flag");
@@ -48,6 +48,15 @@ public class HttpTest {
 class MyBean{
     private String pid;
     private Integer num;
+    private String opt;
+
+    public String getOpt() {
+        return opt;
+    }
+
+    public void setOpt(String opt) {
+        this.opt = opt;
+    }
 
     public String getPid() {
         return pid;

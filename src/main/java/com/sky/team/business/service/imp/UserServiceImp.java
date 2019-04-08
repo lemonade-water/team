@@ -81,7 +81,7 @@ public class UserServiceImp implements UserService {
         User register_user = userDao.selectRegister(user.getUserId(), user.getUserEmail());
         if(register_user!=null&&register_user.getUserEmailCode().equals(user.getUserEmailCode())){
             Date userLastTime = register_user.getUserLastTime();
-            if((new Date().getTime()-userLastTime.getTime())>=150000l){
+            if((new Date().getTime()-userLastTime.getTime())>=200000l){
                 return false;
             }
             String hashAlgorithmName = "MD5";

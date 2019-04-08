@@ -82,6 +82,18 @@ public class UserController {
         }
     }
 
+    @RequestMapping(value = "/api/getUserDetail")
+    public User getUser(HttpServletRequest request){
+        String token = request.getHeader("Authorization");
+        //检查jwt令牌, 如果令牌不合法或者过期, 里面会直接抛出异常, 下面的catch部分会直接返回
+        JwtUtil.validateToken(token);
+        Map<String, Object> body = Jwts.parser()
+                .setSigningKey("ThisIsASecret")
+                .parseClaimsJws(token.replace("Bearer ",""))
+                .getBody();
+        return userDao.getUser((String)body.get("username"));
+    }
+
     @RequestMapping(value = "/api/autoLogin",method = RequestMethod.POST)
     @ResponseBody
     public void login(HttpServletRequest request,HttpServletResponse response) throws IOException {
@@ -180,7 +192,7 @@ public class UserController {
     }
 
     /*修改密码*/
-    @RequestMapping("/api/updatePassword")
+    @RequestMapping(value = "/api/updatePassword",method = RequestMethod.POST)
     public ResultMessage updatepassword(@RequestBody User user){
         if(user.getUserId()==null&&user.getUserEmail()==null){
             return ResultMessage.setResultMessage("404","账号或者邮箱不能为空");
@@ -235,7 +247,7 @@ public class UserController {
     }
 
     /*修改user*/
-    @RequestMapping("/api/updateUser")
+    @RequestMapping(value = "/api/updateUser",method = RequestMethod.POST)
     public ResultMessage updateUser(@RequestBody User user){
         return userService.updateUser(user);
     }

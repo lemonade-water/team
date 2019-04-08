@@ -4,6 +4,7 @@ package com.sky.team.business.controller;
 import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sky.team.business.pojo.User;
+import com.sky.team.business.util.PageHelper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,6 +81,21 @@ public class TestController {
                         .header("Authorization","'Bearer eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTcyNzkzMzcsInVzZXJuYW1lIjoiMTExIn0.SbvWPvaYEiWJYIRdHXvdNd09NHHzr7KpMQA5HgruPQXdnSWF2lu0tnliYOVZ-B_dj1rgeGSmMTN3_FGtCbRfpw'")
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .content(mapper.writeValueAsString(user))
+                //使用writeValueAsString()方法来获取对象的JSON字符串表示
+        ).andDo(print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+    }
+
+    @Test
+    public void adminGetPersonVideo() throws Exception {
+        PageHelper pageHelper  =new PageHelper();
+        pageHelper.setPage(1);
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get("/api/adminGetPersonVideo")
+                        .header("Authorization","'Bearer eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTcyNzkzMzcsInVzZXJuYW1lIjoiMTExIn0.SbvWPvaYEiWJYIRdHXvdNd09NHHzr7KpMQA5HgruPQXdnSWF2lu0tnliYOVZ-B_dj1rgeGSmMTN3_FGtCbRfpw'")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(mapper.writeValueAsString(pageHelper))
                 //使用writeValueAsString()方法来获取对象的JSON字符串表示
         ).andDo(print())
                 .andExpect(MockMvcResultMatchers.status().isOk())

@@ -17,6 +17,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
+            if(request.getServletPath().contains("/video/")){
+                filterChain.doFilter(request, response);
+            }
             if(request.getServletPath().equals("/api/login")||request.getServletPath().equals("/api/getEmail")||request.getServletPath().equals("/api/isUserId")||request.getServletPath().equals("/api/register")){
                 filterChain.doFilter(request, response);
             }else{
@@ -28,8 +31,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
         } catch (Exception e) {
-            System.out.println("过滤器异常");
-            e.printStackTrace();
+            System.out.println(request.getServletPath());
+            System.out.println("过滤器!!!!!!!");
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
             return;
         }

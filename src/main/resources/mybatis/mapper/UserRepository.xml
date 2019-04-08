@@ -19,6 +19,11 @@
         <collection property="role" ofType="com.sky.team.business.pojo.Role">
             <id property="roleId" column="roleid"></id>
             <result property="roleName" column="rolename"></result>
+            <collection property="permissionList" ofType="com.sky.team.business.pojo.Permission">
+                <id property="permissionId" column="permissionid"></id>
+                <result property="permissionName" column="permissionname"></result>
+                <result property="permissionznName" column="permissionznname"></result>
+            </collection>
         </collection>
     </resultMap>
     <select id="getUser" resultMap="seletctuser">
@@ -47,7 +52,7 @@
         delete from user_register where userLastTime <![CDATA[ <= ]]> #{param1};
     </delete>
     <insert id="addUser">
-        insert  into  user(userid,username, userpassword, useremail,userdepartment,useremailCode,roleid) values (#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},'2');
+        insert  into  user(userid,username, userpassword ,useremail,useremailCode,userdepartment,roleid) values (#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},'2');
     </insert>
 
     <update id="updateLoginTime">
@@ -59,4 +64,20 @@
     <update id="updateUser">
         update user(username,userdepartment) values (#{username},#{userdepartment}) where user.userid={userId}
     </update>
+
+    <!--近期每个用户的活跃度-->
+    <select id="countActivity" resultMap="seletctuser">
+        select * from user left join on u_course on u_course.u_id = user.userid order by u_course.updatetime desc limit 0,5;
+    </select>
+
+    <!--每个部门总人数-->
+    <select id="countDepartment" resultType="com.sky.team.business.pojo.CountDepartment">
+        select userdepartment,count(1) as countDepartment from user where userdepartment!=NULL or userdepartment!='管理员' GROUP BY  userdepartment
+    </select>
+    <!--当前注册人数-->
+
+    <select id="countUser" resultType="java.lang.Integer">
+        select count(1) from user where delflag='0';
+    </select>
+
 </mapper>

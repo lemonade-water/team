@@ -11,22 +11,15 @@ public class Subsection implements Serializable {
     private Date  videoTime;
     private String videoFormat;
     private String videoName;
-    private Integer videoSize;
+    private float videoSize;
+    private String  subsectionCId;
 
-    public String getVideoName() {
-        return videoName;
+    public String getSubsectionCId() {
+        return subsectionCId;
     }
 
-    public void setVideoName(String videoName) {
-        this.videoName = videoName;
-    }
-
-    public Integer getVideoSize() {
-        return videoSize;
-    }
-
-    public void setVideoSize(Integer videoSize) {
-        this.videoSize = videoSize;
+    public void setSubsectionCId(String subsectionCId) {
+        this.subsectionCId = subsectionCId;
     }
 
     public String getSubsectionId() {
@@ -75,5 +68,21 @@ public class Subsection implements Serializable {
 
     public void setVideoFormat(String videoFormat) {
         this.videoFormat = videoFormat;
+    }
+
+    public String getVideoName() {
+        return videoName;
+    }
+
+    public void setVideoName(String videoName) {
+        this.videoName = videoName;
+    }
+
+    public float getVideoSize() {
+        return videoSize;
+    }
+
+    public void setVideoSize(float videoSize) {
+        this.videoSize = videoSize;
     }
 }

@@ -24,6 +24,7 @@
     <delete id="delCourse" parameterType="String">
         update course set course.delflag = '1' where c_id=#{cId};
     </delete>
+
     <!--修改-->
     <update id="UpdCourse" parameterType="com.sky.team.business.pojo.Course">
         update course set
@@ -136,6 +137,7 @@
         <result column="c_path" property="cPath"></result>
         <result column="c_tag" property="cTag"></result>
         <result column="lookcount" property="lookCount"></result>
+        <result column="c_pop" property="cPop"></result>
         <result column="count1" property="count"></result>
         <collection property="chapterCourseList" ofType="com.sky.team.business.pojo.ChapterCourse">
             <id column="chapter_id" property="chapterId"></id>
@@ -153,6 +155,7 @@
                 <result column="video_time" property="videoTime" ></result>
                 <result column="video_format" property="videoFormat" ></result>
                 <result column="video_size" property="videoSize" ></result>
+                <result column="subsection_CId" property="subsectionCId" ></result>
             </collection>
         </collection>
 
@@ -198,10 +201,17 @@
         limit #{param4},#{param5}
     </select>
     <select id="getChapter" resultMap="selectCourse">
-        select * from course c
+        select c.*,cc.*,s.subsection_id,
+s.subsection_name,
+s.chapter_id,
+s.video_name,
+s.video_url,
+s.video_format,
+s.video_size
+ from course c
 	    left JOIN chapter_course cc on c.c_id=cc.c_id
-	    LEFT JOIN subsection s on s.chapter_id=cc.chapter_id
-        where c.c_type='1' and c.delflag='0' and  c.c_id=#{param1}
+	    LEFT JOIN subsection s on s.chapter_id=cc.chapter_id and s.subsection_CId=cc.c_id
+        where c.c_type='1' and c.delflag='0' and  c.c_id=#{param1} order by cast(cc.chapter_id as SIGNED INTEGER) ASC, cast(s.subsection_id as SIGNED INTEGER) ASC
     </select>
     <select id="getSketchClose" resultMap="selectCourse">
         select * from course where c_id in
@@ -229,4 +239,95 @@ delflag,
 ch_path
 ) values (#{chapterId},#{cId},#{chName},0,#{delflag},#{chPath});
     </insert>
+
+    <resultMap id="selectChapter" type="com.sky.team.business.pojo.ChapterCourse">
+        <id column="chapter_id" property="chapterId"></id>
+        <result column="c_id" property="cId"></result>
+        <result column="ch_name" property="chName"></result>
+        <result column="ch_subsection_accout" property="chSubsectionAccout"></result>
+        <result column="delflag" property="delflag"></result>
+        <result column="ch_path" property="chPath"></result>
+    </resultMap>
+
+    <!--查询单章节-->
+    <select id="findCourseById" resultMap="selectChapter">
+        select * from chapter_course where chapter_id=#{param1}
+    </select>
+
+    <!--增加小节-->
+    <insert id="addSubsection">
+        insert into chapter_course(subsection_id,
+subsection_name,
+chapter_id,
+video_name,
+video_url,
+video_time,
+video_format,
+video_size
+) values (#{subsectionId},#{subsectionName},#{chapterId},#{videoName},#{videoUrl},#{videoTime},#{videoFormat},#{videoSize});
+    </insert>
+
+
+   <!--收藏-->
+    <insert id="collection">
+        insert into user_collection(userid,courseid) values (#{param2},#{param1});
+    </insert>
+    <update id="addCollection">
+        update course set  course.c_collection=course.c_collection+1,course.c_pop=course.c_pop+10;
+    </update>
+
+    <resultMap id="selectCollection" type="com.sky.team.business.pojo.Collection">
+        <id column="courseid" property="cId"></id>
+        <id property="userId" column="userid"></id>
+        <result column="c_upload_time" property="cUploadTime"></result>
+        <result column="c_picture_url" property="cPictureUrl"></result>
+        <result column="c_name" property="cName"></result>
+        <result column="c_intro" property="cIntro"></result>
+        <result column="userName" property="userName"></result>
+    </resultMap>
+    <!--查询收藏-->
+    <select id="selectCollection" resultMap="selectCollection">
+      select * from user_collection LEFT JOIN course on course.c_id=user_collection.courseid
+			LEFT JOIN user on user_collection.userid=`user`.userid where user_collection.userid=#{param1}
+    </select>
+
+    <select id="courseCollection" resultMap="selectCollection">
+      select * from user_collection where user_collection.userid=#{param1} and user_collection.courseid=#{param2};
+    </select>
+
+    <delete id="delCollection">
+        delete from user_collection  where user_collection.courseid=#{param1} and user_collection.userid=#{param2}
+    </delete>
+
+    <update id="addVolume">
+        update course set course.c_pop=course.c_pop+1,course.c_volume=course.c_volume+1 where c_id=#{param1};
+    </update>
+    <!--统计前五课程的收藏数-->
+    <select id="countCollection" resultMap="selectCourse">
+        select * from course ORDER BY course.c_collection desc limit 0,5
+    </select>
+
+    <!--统计前五课程的播放量-->
+    <select id="countVolume" resultMap="selectCourse">
+        select * from course ORDER BY course.c_volume desc limit 0,5
+    </select>
+
+
+    <insert id="addUCourse" >
+
+    </insert>
+
+    <!---->
+    <select id="selectUCourse" resultType="com.sky.team.business.pojo.UCourse">
+        select  u_id as uId,
+c_id as cId,
+chapter_id as chapterId,
+subsection_id as subsectionId,
+userlearntime as userlearntime,
+coursetime as coursetime,
+updatetime as updatetime from u_course where u_course.u_id=#{param1} and u_course.c_id=#{param2} and u_course.chapter_id=#{param3} and u_course.subsection_id=#{param4}
+    </select>
+    <update id="updateCourse">
+        update u_course set userlearntime=#{param5},updatetime=#{param6} where u_course.u_id=#{param1} and u_course.c_id=#{param2} and u_course.chapter_id=#{param3} and u_course.subsection_id=#{param4};
+    </update>
 </mapper>

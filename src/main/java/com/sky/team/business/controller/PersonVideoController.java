@@ -46,9 +46,16 @@ public class PersonVideoController {
     }
 
     /*点击视频，热度变化*/
-    @RequestMapping(value = "/api/updPersonVideo" ,method = RequestMethod.POST)
-    public int UpdCourse(@RequestBody PersonVideo personVideo){
-        return personVideoService.UpdPersonVideo(personVideo);
+    @RequestMapping(value = "/api/updPersonVideo" ,method = RequestMethod.GET)
+    public int UpdCourse(HttpServletRequest request){
+        String token = request.getHeader("Authorization");
+        //检查jwt令牌, 如果令牌不合法或者过期, 里面会直接抛出异常, 下面的catch部分会直接返回
+        Map<String, Object> body = Jwts.parser()
+                .setSigningKey("ThisIsASecret")
+                .parseClaimsJws(token.replace("Bearer ",""))
+                .getBody();
+        String userid = (String)body.get("username");
+        return personVideoService.UpdPersonVideo(userid);
     }
 
 

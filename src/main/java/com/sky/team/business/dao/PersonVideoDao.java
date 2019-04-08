@@ -13,7 +13,7 @@ public interface PersonVideoDao {
     boolean corrction(String personVideoId,String type);
 
     /*视频热度变化*/
-    int UpdPersonVideo(PersonVideo personVideo);
+    int UpdPersonVideo(String userid);
     /*插入用户上传视频信息*/
     int userUpload(PersonVideo personVideo);
 
@@ -30,4 +30,7 @@ public interface PersonVideoDao {
     Integer getPersonVideoCount();
 
     List<PersonVideo> queryPersonList(int pageIndex, int limit);
+
+    /*微视频热度前五*/
+    List<PersonVideo> countPersonVideo();
 }

@@ -12,7 +12,7 @@ public interface PersonVideoService {
     boolean userUpload(MultipartFile file,PersonVideo personVideo,String userid,String tag,String describe);
 
     /*视频热度变化*/
-    int UpdPersonVideo(PersonVideo personVideo);
+    int UpdPersonVideo(String userid);
 
     List<PersonVideo> getPersonVideoList(Integer num);
 

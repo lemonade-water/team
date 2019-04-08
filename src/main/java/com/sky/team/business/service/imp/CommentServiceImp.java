@@ -34,6 +34,7 @@ public class CommentServiceImp implements CommentService {
             String outtxt = jsonObject.getString("outtxt");
             System.out.println(outtxt);
             comment.setCommentText(outtxt);
+            comment.setCommentDate(new Date());
             commentDao.insertComment(comment);
             return ResultMessage.setResultMessage("200","评论成功");
         }catch (Exception e){

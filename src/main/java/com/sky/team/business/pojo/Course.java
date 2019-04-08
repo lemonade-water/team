@@ -25,6 +25,15 @@ public class Course implements Serializable {
     /*看了多少个*/
     private Integer lookCount;
     private List<ChapterCourse> chapterCourseList;
+    private Integer cPop;
+
+    public Integer getcPop() {
+        return cPop;
+    }
+
+    public void setcPop(Integer cPop) {
+        this.cPop = cPop;
+    }
 
     public List<ChapterCourse> getChapterCourseList() {
         return chapterCourseList;
@@ -178,5 +187,30 @@ public class Course implements Serializable {
 
     public void setcType(String cType) {
         this.cType = cType;
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "cId='" + cId + '\'' +
+                ", cName='" + cName + '\'' +
+                ", cTecBigType=" + cTecBigType +
+                ", cTecSmallType=" + cTecSmallType +
+                ", cIntro='" + cIntro + '\'' +
+                ", cAuthor='" + cAuthor + '\'' +
+                ", cColumnIntro='" + cColumnIntro + '\'' +
+                ", delflag='" + delflag + '\'' +
+                ", cChapterCount=" + cChapterCount +
+                ", cCollection=" + cCollection +
+                ", cUploadTime=" + cUploadTime +
+                ", cUploader='" + cUploader + '\'' +
+                ", cPictureUrl='" + cPictureUrl + '\'' +
+                ", cType='" + cType + '\'' +
+                ", cPath='" + cPath + '\'' +
+                ", cTag='" + cTag + '\'' +
+                ", count=" + count +
+                ", lookCount=" + lookCount +
+                ", chapterCourseList=" + chapterCourseList +
+                '}';
     }
 }

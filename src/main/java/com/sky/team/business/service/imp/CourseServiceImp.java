@@ -5,10 +5,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.sky.team.business.dao.CourseDao;
 import com.sky.team.business.dao.CourseTypeDao;
 import com.sky.team.business.dao.UserDao;
-import com.sky.team.business.pojo.ChapterCourse;
-import com.sky.team.business.pojo.Course;
-import com.sky.team.business.pojo.CourseType;
-import com.sky.team.business.pojo.User;
+import com.sky.team.business.pojo.*;
+import com.sky.team.business.pojo.Collection;
 import com.sky.team.business.service.CourseService;
 import com.sky.team.business.util.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +14,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
-
+import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class CourseServiceImp implements CourseService {
@@ -90,7 +87,7 @@ public class CourseServiceImp implements CourseService {
     /*管理员*/
     @Override
     @Transactional
-    public Course addCourse(Course course,String userid) {
+    public Course addCourse(Course course,String userid,MultipartFile multipartFile) {
         /*
         * 生成视频目录  通过时间
         * 创建文件夹
@@ -99,13 +96,13 @@ public class CourseServiceImp implements CourseService {
         String s = String.valueOf(date.getTime());
         String path = userid+ File.separator+s;
 
-        course.setcId(s);
+        course.setcId(UUID.randomUUID().toString().replace("-",""));
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD HH-mm-ss");
         simpleDateFormat.format(date);
         course.setcUploadTime(date);
         /*session*/
         try{
-            course.setcUploader(userid);
+            course.setcUploader("管理员");
             User user = userDao.getUser(userid);
             if(user.getRole().getRoleId().equals("1")||user.getRole().getRoleName().equals("管理员")){
                 course.setcType("1");
@@ -128,7 +125,17 @@ public class CourseServiceImp implements CourseService {
             file.mkdirs();
         }
         course.setcPath(videoStaticPattern+videoPathGeek+path);
+
+        /*插入封面*/
+        File img = new File(videoPath+videoPathGeek+path+File.separator+multipartFile.getOriginalFilename());
+        try {
+            multipartFile.transferTo(img);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        course.setcPictureUrl(videoStaticPattern+videoPathGeek+path+File.separator+multipartFile.getOriginalFilename());
         courseDao.addCourse(course);
+
         return course;
     }
 
@@ -175,7 +182,7 @@ public class CourseServiceImp implements CourseService {
     @Override
     public List<Course> getSketchClose(String cid) {
         try{
-            String url = IntelligenceIP+"/sketch/close/?pid="+cid+"&num="+sketchNum;
+            String url = IntelligenceIP+"/sketch/close/?pid="+cid+"&num="+sketchNum+"&opt=0";
             String s = restTemplate.getForObject(url, String.class);
             JSONObject jsonObject = JSONObject.parseObject(s);
             JSONArray flag = jsonObject.getJSONArray("flag");
@@ -199,21 +206,106 @@ public class CourseServiceImp implements CourseService {
         Course course = courseDao.getCourseById(chapterCourse.getcId());
         /*得到目录*/
         String s = course.getcPath();
+        // /video/极客时间/111\1554534925621
         String substring = s.substring(s.indexOf(videoStaticPattern) + videoStaticPattern.length());
         /*创建文件夹*/
         String chaptername = String.valueOf(new Date().getTime());
-        String chapterPath = videoPath+videoPathGeek+substring+File.separator+chaptername;
+        String chapterPath = videoPath+substring+File.separator+chaptername;
         File file = new File(chapterPath);
         if(!file.exists()){
             file.mkdirs();
         }
         /*插入数据*/
-        chapterCourse.setChPath(chapterPath);
+        chapterCourse.setChPath(s+File.separator+chaptername);
         chapterCourse.setChapterId(chaptername);
         chapterCourse.setDelflag("0");
 
         courseDao.addChapter(chapterCourse);
         return true;
+    }
+
+
+
+    /*上传课程*/
+    @Override
+    public ResultMessage uploaderCourse(MultipartFile file, String chapterId, String subsectionName) {
+
+        /*查询出章节所在的*/
+        ChapterCourse chapterCourse = courseDao.findCourseById(chapterId);
+        String s= chapterCourse.getChPath();
+        String substring = s.substring(s.indexOf(videoStaticPattern) + videoStaticPattern.length());
+        /*先建文件夹*/
+        String filename = String.valueOf(new Date().getTime());
+        String url = videoPath+videoPathGeek+substring+File.separator+filename+file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+        File file1 = new File(url);
+        /*存数据库*/
+        Subsection subsection = new Subsection();
+        subsection.setChapterId(chapterId);
+        subsection.setSubsectionId(filename);
+        subsection.setSubsectionName(subsectionName);
+        subsection.setVideoFormat(file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")+1));
+        subsection.setVideoUrl(videoStaticPattern+url);
+        BigDecimal size = new BigDecimal(file.getSize());
+        BigDecimal mod = new BigDecimal(1024);
+        float videoSize = size.divide(mod).divide(mod).setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
+        subsection.setVideoSize(videoSize);
+        courseDao.addSubsection(subsection);
+        try {
+            file.transferTo(file1);
+            return ResultMessage.setResultMessage("200","成功");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResultMessage.setResultMessage("400","失败");
+        }
+
+    }
+
+    /*收藏*/
+    @Override
+    @Transactional
+    public boolean collection(String cId,String userid) {
+        try{
+            courseDao.collection(cId,userid);
+            courseDao.addCollection(cId);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+
+    }
+
+    @Override
+    public List<Collection> getCollection(String userid) {
+        return courseDao.selectCollection(userid);
+    }
+
+    @Override
+    public boolean delCollection(String cId, String username) {
+
+        return courseDao.delCollection(cId,username);
+    }
+
+    @Override
+    public boolean courseCollection(String cId, String username) {
+        if(courseDao.courseCollection(username,cId)!=null){
+            return true;
+        }else
+            return false;
+    }
+
+    /*添加历史纪录*/
+
+    @Override
+    @Transactional
+    public void addUCourse(String userid, String cId, String chapterId, String subsectionId,Date date) {
+        UCourse uCourse = courseDao.selectUCourse(userid, cId, chapterId, subsectionId);
+        if(uCourse!=null){
+            /*更新*/
+            courseDao.updateCourse(userid,cId,chapterId,subsectionId,date,new Date());
+        }else {
+            courseDao.addUCourse(userid,cId,chapterId,subsectionId,date);
+        }
+
     }
 
 }

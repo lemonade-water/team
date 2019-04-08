@@ -137,8 +137,8 @@ public class PersonVideoServiceImp implements PersonVideoService {
     }
 
     @Override
-    public int UpdPersonVideo(PersonVideo personVideo){
-        return personVideoDao.UpdPersonVideo(personVideo);
+    public int UpdPersonVideo(String userid){
+        return personVideoDao.UpdPersonVideo(userid);
     }
 
     @Override
